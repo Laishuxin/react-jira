@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { loadServer } from 'jira-dev-tool'
+import { AppAuthProvider } from 'context'
 
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+       <AppAuthProvider>
+        <App />
+       </AppAuthProvider>
     </React.StrictMode>,
     document.getElementById('root'),
   ),

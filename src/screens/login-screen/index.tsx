@@ -1,16 +1,9 @@
-import { fetchLogin } from 'api'
 import React, { FormEvent, Fragment } from 'react'
+import { useAuth } from 'context/auth-context'
 
 export const LoginScreen = () => {
-  const login = (param: { username: string; password: string }) => {
-    fetchLogin(param)
-      .then(response => {
-        console.log('login response: ', response)
-      })
-      .catch(e => {
-        console.log('error: ', e)
-      })
-  }
+  const { login, user } = useAuth()
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const currentTarget = e.currentTarget
@@ -31,6 +24,7 @@ export const LoginScreen = () => {
           <input type='password' id='password' />
         </div>
         <button type='submit'>login</button>
+        {/* <div className='banner'>{JSON.stringify(user)}</div> */}
       </form>
     </Fragment>
   )

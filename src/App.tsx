@@ -5,8 +5,8 @@ import { ProjectScreen } from './screens/project-list'
 function App() {
   return (
     <div className='App'>
-      <ProjectScreen />
-      {/*<LoginScreen />*/}
+      {/* <ProjectScreen /> */}
+      <LoginScreen />
     </div>
   )
 }
