@@ -8,9 +8,9 @@ import { AppAuthProvider } from 'context'
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-       <AppAuthProvider>
+      <AppAuthProvider>
         <App />
-       </AppAuthProvider>
+      </AppAuthProvider>
     </React.StrictMode>,
     document.getElementById('root'),
   ),

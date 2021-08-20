@@ -41,4 +41,5 @@ export const register = (data: IRegisterForm) => {
   })
 }
 
-export const logout = async () => window.localStorage.removeItem(localStorageKey)
+export const logout = async () =>
+  window.localStorage.removeItem(localStorageKey)

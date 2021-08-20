@@ -6,7 +6,5 @@ export const AppAuthProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  return <AuthProvider>
-    {children}
-  </AuthProvider>
+  return <AuthProvider>{children}</AuthProvider>
 }
