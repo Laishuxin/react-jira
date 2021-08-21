@@ -11,13 +11,13 @@ export const fetchProjectList = (param: IParam) => {
       if (response.ok) {
         return response.json()
       }
-      return Promise.reject([])
+      return Promise.reject(param)
     },
   )
 }
 
 export const fetchProjectUsers = () => {
   return fetch(`${BASE_URL}/users`).then(response => {
-    return response.ok ? response.json() : Promise.reject([])
+    return response.ok ? response.json() : Promise.reject()
   })
 }

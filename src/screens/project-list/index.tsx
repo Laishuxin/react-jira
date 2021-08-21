@@ -4,11 +4,14 @@ import { List } from './list'
 import { useEffect, useState } from 'react'
 import { fetchProjectUsers, fetchProjectList } from 'api'
 import { useDebounce, useMount } from 'shared/hooks'
-import { IParam, IProject, IUser } from 'types'
+import { IParam, IProject, IProjectList, IUser } from 'types'
+import { useHttp } from 'api/http'
+import { cleanObject } from 'shared/utils'
 
 export const ProjectScreen = () => {
   const [list, setList] = useState<IProject[]>([])
   const [users, setUsers] = useState<IUser[]>([])
+  const client = useHttp()
   const [param, setParam] = useState<IParam>({
     name: '',
     personId: '',
@@ -18,23 +21,16 @@ export const ProjectScreen = () => {
 
   //* useEffect blog: https://dmitripavlutin.com/react-useeffect-explanation/#:~:text=The%20useEffect%20%28callback%2C%20%5Bprop%2C%20state%5D%29%20invokes%20the%20callback,independently%20from%20the%20rendering%20cycles%20of%20the%20component.
   useEffect(() => {
-    try {
-      const fetchList = async () => {
-        const list = await fetchProjectList(debouncedParam)
-        setList(list)
-      }
-      fetchList()
-    } catch (_) {}
+    client('/projects', { data: cleanObject(debouncedParam) })
+      .then(setList)
+      .catch(_ => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam])
 
   useMount(() => {
-    try {
-      const fetchUser = async () => {
-        const users = await fetchProjectUsers()
-        setUsers(users)
-      }
-      fetchUser()
-    } catch (_) {}
+    client('/users')
+      .then(setUsers)
+      .catch(_ => {})
   })
 
   return (

@@ -1,6 +1,18 @@
 import React, { createContext, useState, useContext } from 'react'
 import { IAuthForm, IRegisterForm, IUser } from 'types'
 import * as auth from 'api/auth-provider'
+import { http } from 'api/http'
+import { useMount } from 'shared/hooks'
+
+const bootstrapUser = async () => {
+  let user = null
+  const token = auth.getToken()
+  if (token) {
+    const data = await http('/me', { token })
+    user = data.user
+  }
+  return user
+}
 
 const AuthContext = createContext<
   | {
@@ -17,10 +29,14 @@ AuthContext.displayName = 'AuthContext'
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null)
 
-  const login = (authForm: IAuthForm) => auth.login(authForm).then(setUser)
+  useMount(() => {
+    bootstrapUser().then(setUser)
+  })
+
+  const login = (authForm: IAuthForm) => auth.fetchLogin(authForm).then(setUser)
   const register = (authForm: IAuthForm) =>
-    auth.register(authForm).then(setUser)
-  const logout = () => auth.logout().then(() => setUser(null))
+    auth.fetchRegister(authForm).then(setUser)
+  const logout = () => auth.fetchLogout().then(() => setUser(null))
 
   return (
     <AuthContext.Provider

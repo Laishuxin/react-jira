@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "yarn start",
     "start:server": "json-server __json_server_mock__/db.json --port 3002 --middlewares __json_server_mock__/middleware.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
