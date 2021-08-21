@@ -1,4 +1,5 @@
 import React from 'react'
+import { Input, Select } from 'antd'
 import { IParam, IUserList } from 'types'
 
 interface IPropTypes {
@@ -13,7 +14,7 @@ export const SearchPanel = (props: IPropTypes) => {
   return (
     <form>
       <div className='form-item'>
-        <input
+        <Input
           type='text'
           value={param.name}
           onChange={e =>
@@ -23,17 +24,17 @@ export const SearchPanel = (props: IPropTypes) => {
             })
           }
         />
-        <select
+        <Select
           value={param.personId}
-          onChange={e => setParam({ ...param, personId: e.target.value })}
+          onChange={value => setParam({ ...param, personId: value })}
         >
-          <option value={''}>负责人</option>
+          <Select.Option value={''}>负责人</Select.Option>
           {users.map(user => (
-            <option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={user.id}>
               {user.name}
-            </option>
+            </Select.Option>
           ))}
-        </select>
+        </Select>
       </div>
     </form>
   )

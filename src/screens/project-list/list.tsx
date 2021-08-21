@@ -1,5 +1,7 @@
 import React from 'react'
-import { IProjectList, IUserList } from 'types'
+import { Table } from 'antd'
+import { IProject, IProjectList, IUserList } from 'types'
+import { ColumnsType } from 'antd/lib/table'
 
 interface IPropTypes {
   list: IProjectList
@@ -8,24 +10,30 @@ interface IPropTypes {
 
 export const List = (props: IPropTypes) => {
   const { list, users } = props
+
+  const columns: ColumnsType<IProject> = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: '负责人',
+      render(_, project) {
+        return (
+          <span>
+            {users.find(user => user.id === project.personId)?.name || '未知'}
+          </span>
+        )
+      },
+    },
+  ]
   return (
-    <table className='list'>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map(project => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
-              {users.find(user => user.id === project.personId)?.name || '未知'}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      className='list'
+      pagination={false}
+      dataSource={list}
+      columns={columns}
+    />
   )
 }

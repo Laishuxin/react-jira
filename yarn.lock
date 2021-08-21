@@ -2247,7 +2247,7 @@
   resolved "https://registry.nlark.com/@types/q/download/@types/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
   integrity sha1-daKo59irSyMEFFBdkjNdHctTpt8=
 
-"@types/qs@^6.9.5":
+"@types/qs@^6.9.7":
   version "6.9.7"
   resolved "https://registry.nlark.com/@types/qs/download/@types/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha1-Y7t9Bn2xB8weRXwwO8JdUR/r9ss=
@@ -2306,7 +2306,15 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^16", "@types/react@^16.9.53":
+"@types/react@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.nlark.com/@types/react/download/@types/react-17.0.1.tgz#eb1f1407dea8da3bc741879c1192aa703ab9975b"
+  integrity sha1-6x8UB96o2jvHQYecEZKqcDq5l1s=
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
+"@types/react@^16":
   version "16.14.14"
   resolved "https://registry.nlark.com/@types/react/download/@types/react-16.14.14.tgz#853de95a32a6a0e719192e222eacad024add2b8e"
   integrity sha1-hT3pWjKmoOcZGS4iLqytAkrdK44=

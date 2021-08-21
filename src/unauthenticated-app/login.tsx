@@ -1,30 +1,38 @@
 import React, { FormEvent, Fragment } from 'react'
+import { Button, Form, Input } from 'antd'
 import { useAuth } from 'context/auth-context'
+import { LongButton } from 'components/content'
 
 export const LoginScreen = () => {
   const { login } = useAuth()
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const currentTarget = e.currentTarget
-    const username = (currentTarget[0] as HTMLInputElement).value
-    const password = (currentTarget[1] as HTMLInputElement).value
-    login({ username, password })
+  const handleSubmit = (values: { username: string; password: string }) => {
+    login(values)
   }
 
   return (
     <Fragment>
-      <form onSubmit={e => handleSubmit(e)}>
-        <div className='form-item'>
-          <label htmlFor='username'>username</label>
-          <input type='text' id={'username'} />
-        </div>
-        <div className='form-item'>
-          <label htmlFor='password'>password</label>
-          <input type='password' id='password' />
-        </div>
-        <button type='submit'>login</button>
-      </form>
+      <Form onFinish={handleSubmit}>
+        <Form.Item name='username' rules={[{ required: true }]}>
+          <Input
+            placeholder='Please enter username'
+            type='text'
+            id={'username'}
+          />
+        </Form.Item>
+        <Form.Item name='password' rules={[{ required: true }]}>
+          <Input
+            placeholder='Please enter password'
+            type='password'
+            id='password'
+          />
+        </Form.Item>
+        <Form.Item>
+          <LongButton htmlType='submit' type='primary'>
+            login
+          </LongButton>
+        </Form.Item>
+      </Form>
     </Fragment>
   )
 }
