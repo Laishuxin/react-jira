@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'antd'
+import dayjs from 'dayjs'
 import { IProject, IProjectList, IUserList } from 'types'
 import { ColumnsType } from 'antd/lib/table'
 
@@ -18,6 +19,15 @@ export const List = (props: IPropTypes) => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
+      title: '部门',
+      dataIndex: 'organization',
+    },
+    {
+      title: '创建时间',
+      render: (_, project) =>
+        project.created ? dayjs(project.created).format('YYYY-MM-DD') : '未知',
+    },
+    {
       title: '负责人',
       render(_, project) {
         return (
@@ -31,6 +41,7 @@ export const List = (props: IPropTypes) => {
   return (
     <Table
       className='list'
+      rowKey='id'
       pagination={false}
       dataSource={list}
       columns={columns}

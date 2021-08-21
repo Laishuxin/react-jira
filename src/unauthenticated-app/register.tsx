@@ -1,7 +1,7 @@
-import React, { FormEvent, Fragment } from 'react'
+import React from 'react'
 import { useAuth } from 'context/auth-context'
-import { Form, Input, Button } from 'antd'
-import { LongButton } from 'components/content'
+import { Form, Input } from 'antd'
+import { LongButton } from 'components/common'
 
 export const RegisterScreen = () => {
   const { register } = useAuth()

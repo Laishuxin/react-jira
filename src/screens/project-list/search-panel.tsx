@@ -1,5 +1,7 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/react'
 import React from 'react'
-import { Input, Select } from 'antd'
+import { Form, Input, Select } from 'antd'
 import { IParam, IUserList } from 'types'
 
 interface IPropTypes {
@@ -12,9 +14,10 @@ export const SearchPanel = (props: IPropTypes) => {
   const { param, setParam, users } = props
 
   return (
-    <form>
-      <div className='form-item'>
+    <Form css={{ marginBottom: '2rem' }} layout='inline'>
+      <Form.Item className='form-item'>
         <Input
+          placeholder='项目名'
           type='text'
           value={param.name}
           onChange={e =>
@@ -24,6 +27,8 @@ export const SearchPanel = (props: IPropTypes) => {
             })
           }
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={value => setParam({ ...param, personId: value })}
@@ -35,7 +40,7 @@ export const SearchPanel = (props: IPropTypes) => {
             </Select.Option>
           ))}
         </Select>
-      </div>
-    </form>
+      </Form.Item>
+    </Form>
   )
 }

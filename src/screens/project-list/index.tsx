@@ -2,9 +2,9 @@ import React from 'react'
 import { SearchPanel } from './search-panel'
 import { List } from './list'
 import { useEffect, useState } from 'react'
-import { fetchProjectUsers, fetchProjectList } from 'api'
+import styled from '@emotion/styled'
 import { useDebounce, useMount } from 'shared/hooks'
-import { IParam, IProject, IProjectList, IUser } from 'types'
+import { IParam, IProject, IUser } from 'types'
 import { useHttp } from 'api/http'
 import { cleanObject } from 'shared/utils'
 
@@ -34,9 +34,13 @@ export const ProjectScreen = () => {
   })
 
   return (
-    <div className='screen'>
+    <Container>
       <SearchPanel param={param} setParam={setParam} users={users} />
       <List list={list} users={users} />
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  padding: 3.2rem;
+`
