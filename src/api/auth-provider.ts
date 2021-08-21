@@ -43,5 +43,3 @@ export const fetchRegister = (data: IRegisterForm) => {
 
 export const fetchLogout = async () =>
   window.localStorage.removeItem(localStorageKey)
-
-type a = Partia<typeof fetchLogin>
