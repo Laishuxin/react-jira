@@ -4,9 +4,10 @@ interface IState<D> {
   error: null | Error
   data: D | null
   stat: 'idle' | 'loading' | 'error' | 'success'
-  // isLoading: boolean
-  // isError: boolean
-  // isSuccess: boolean
+}
+
+interface IConfig {
+  throwError?: boolean
 }
 
 const defaultState: IState<null> = {
@@ -14,25 +15,39 @@ const defaultState: IState<null> = {
   data: null,
   stat: 'idle',
 }
+const defaultConfig: IConfig = {
+  throwError: true,
+}
 
-export const useAsync = <D>(initialState?: IState<D>) => {
+export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
   const [state, setState] = useState<IState<D>>({
     ...defaultState,
     ...initialState,
   })
+  const { throwError } = {
+    ...defaultConfig,
+    ...config,
+  }
 
-  const setData = (data: D) =>
-    setState({
-      data,
-      stat: 'success',
-      error: null,
-    })
-  const setError = (error: Error) =>
-    setState({
-      error,
-      stat: 'error',
-      data: null,
-    })
+  const setData = useCallback(
+    (data: D) =>
+      setState({
+        data,
+        stat: 'success',
+        error: null,
+      }),
+    [],
+  )
+
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        error,
+        stat: 'error',
+        data: null,
+      }),
+    [],
+  )
 
   const run = useCallback(
     (promise: Promise<D>) => {
@@ -47,7 +62,7 @@ export const useAsync = <D>(initialState?: IState<D>) => {
         })
         .catch(error => {
           setError(error)
-          throw error
+          return throwError ? Promise.reject(error) : error
         })
     },
     [setData],

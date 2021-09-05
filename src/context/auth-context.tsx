@@ -4,6 +4,8 @@ import { http } from 'api/http'
 import { useMount } from 'shared/hooks/use-mount'
 import { IUser } from 'types/user-types'
 import { IAuthForm, IRegisterForm } from 'types/form-types'
+import { useAsync } from '../shared/hooks/use-async'
+import { FullPage, FullPageErrorFeedback, FullPageLoading } from '../components/common/lib'
 
 const bootstrapUser = async () => {
   let user = null
@@ -15,29 +17,36 @@ const bootstrapUser = async () => {
   return user
 }
 
-const AuthContext = createContext<
-  | {
-      user: IUser | null
-      login: (authForm: IAuthForm) => Promise<void>
-      register: (form: IRegisterForm) => Promise<void>
-      logout: () => Promise<void>
-    }
-  | undefined
->(undefined)
+const AuthContext = createContext<| {
+  user: IUser | null
+  login: (authForm: IAuthForm) => Promise<void>
+  register: (form: IRegisterForm) => Promise<void>
+  logout: () => Promise<void>
+}
+  | undefined>(undefined)
 
 AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null)
+  // const [user, setUser] = useState<IUser | null>(null)
+  const { data: user, setData: setUser, isError, isLoading, isIdle, run, error } = useAsync<IUser | null>()
 
   useMount(() => {
-    bootstrapUser().then(setUser)
+    run(bootstrapUser())
   })
 
   const login = (authForm: IAuthForm) => auth.fetchLogin(authForm).then(setUser)
   const register = (authForm: IAuthForm) =>
     auth.fetchRegister(authForm).then(setUser)
   const logout = () => auth.fetchLogout().then(() => setUser(null))
+
+  if (isLoading) {
+    return <FullPageLoading />
+  }
+
+  if (isError) {
+    return <FullPageErrorFeedback error={error as Error} />
+  }
 
   return (
     <AuthContext.Provider

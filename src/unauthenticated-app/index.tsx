@@ -1,23 +1,34 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button, Card, Divider } from 'antd'
 import styled from '@emotion/styled'
 import { LoginScreen } from './login'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
-import { Container } from 'components/common/lib'
+import { Container, ErrorTypography } from 'components/common/lib'
 import { RegisterScreen } from './register'
 
 export const UnAuthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+  const handleClick = useCallback(() => {
+    setIsRegister(r => !r)
+    setError(null)
+  }, [setIsRegister, setError])
+  const handleChange = () => setError(null)
   return (
     <Container>
       <Background />
       <Header />
       <ShadowCard>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {error ? <ErrorTypography error={error} /> : null}
+        {isRegister ? (
+          <RegisterScreen onError={setError} onChange={handleChange} />
+        ) : (
+          <LoginScreen onError={setError} onChange={handleChange} />
+        )}
         <Divider />
-        <Button type='link' onClick={() => setIsRegister(!isRegister)}>
+        <Button type='link' onClick={handleClick}>
           {isRegister
             ? 'Already have an account? Sign in'
             : 'New to Jira? Create an account'}

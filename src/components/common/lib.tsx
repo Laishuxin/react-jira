@@ -1,6 +1,7 @@
-import { Button, Typography } from 'antd'
+import { Button, Spin, Typography } from 'antd'
 import styled from '@emotion/styled'
 import React from 'react'
+import { DevTools } from 'jira-dev-tool'
 
 // container
 export const Container = styled('div')`
@@ -9,6 +10,15 @@ export const Container = styled('div')`
   align-items: center;
   line-height: 100vh;
 `
+
+export const FullPage = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+`
+
 export const Row = styled('div')<{
   gap?: number | boolean
   between?: boolean
@@ -58,3 +68,18 @@ export const ErrorTypography = ({
     </Typography.Text>
   )
 }
+
+export const FullPageErrorFeedback = ({error}: {error: Error}) => {
+  return <FullPage>
+    <ErrorTypography error={error} />
+    <DevTools />
+  </FullPage>
+}
+
+// loading
+export const FullPageLoading = () => {
+  return <FullPage>
+    <Spin size={"large"}/>
+  </FullPage>
+}
+
