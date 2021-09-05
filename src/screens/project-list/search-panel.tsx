@@ -2,13 +2,13 @@
 import { jsx } from '@emotion/react'
 import React from 'react'
 import { Form, Input, Select } from 'antd'
-import { IParam } from 'types/params-types'
 import { IUser } from 'types/user-types'
+import { IProject } from '../../types/project-types'
 
 interface IPropTypes {
-  param: IParam
   users: IUser[]
-  setParam: React.Dispatch<IPropTypes['param']>
+  param: Partial<IProject>
+  setParam: any
 }
 
 export const SearchPanel = (props: IPropTypes) => {
@@ -32,7 +32,7 @@ export const SearchPanel = (props: IPropTypes) => {
       <Form.Item>
         <Select
           value={param.personId}
-          onChange={value => setParam({ ...param, personId: value })}
+          onChange={value => setParam({ ...param, personId: Number(value) })}
         >
           <Select.Option value={''}>负责人</Select.Option>
           {users.map(user => (

@@ -1,7 +1,7 @@
 export interface IProject {
-  id: number
+  id: string
   name: string
-  personId: number
+  personId: number | string // todo: 修改签名
   organization: string
   created: number
 }

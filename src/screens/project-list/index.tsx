@@ -5,41 +5,26 @@ import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useDebounce } from 'shared/hooks/use-debounce'
 import { useHttp } from 'api/http'
-import { cleanObject } from 'shared/utils'
 import { useMount } from 'shared/hooks/use-mount'
-import { IProject } from 'types/project-types'
-import { IUser } from 'types/user-types'
-import { IParam } from 'types/params-types'
+import { ErrorTypography } from '../../components/common/lib'
+import { useProjects } from '../../shared/hooks/use-projects'
+import { useUsers } from '../../shared/hooks/use-users'
+import { IUser } from '../../types/user-types'
 
 export const ProjectScreen = () => {
-  const [list, setList] = useState<IProject[]>([])
-  const [users, setUsers] = useState<IUser[]>([])
-  const client = useHttp()
-  const [param, setParam] = useState<IParam>({
+  const [param, setParam] = useState({
     name: '',
     personId: '',
   })
-
   const debouncedParam = useDebounce(param, 200)
-
-  //* useEffect blog: https://dmitripavlutin.com/react-useeffect-explanation/#:~:text=The%20useEffect%20%28callback%2C%20%5Bprop%2C%20state%5D%29%20invokes%20the%20callback,independently%20from%20the%20rendering%20cycles%20of%20the%20component.
-  useEffect(() => {
-    client('/projects', { data: cleanObject(debouncedParam) })
-      .then(setList)
-      .catch(_ => {})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedParam])
-
-  useMount(() => {
-    client('/users')
-      .then(setUsers)
-      .catch(_ => {})
-  })
+  const { data: list, error, isLoading } = useProjects(debouncedParam)
+  const { data: users } = useUsers()
 
   return (
     <Container>
-      <SearchPanel param={param} setParam={setParam} users={users} />
-      <List list={list} users={users} />
+      <SearchPanel param={param} setParam={setParam} users={users || []} />
+      {error ? <ErrorTypography error={error} /> : null}
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
   )
 }

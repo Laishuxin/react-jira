@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Typography } from 'antd'
 import styled from '@emotion/styled'
 import React from 'react'
 
@@ -40,4 +40,21 @@ export const LongButton = styled(Button)`
 `
 export const LinkButton = (props: React.ComponentProps<typeof Button>) => {
   return <NoPaddingButton type='link' {...props} />
+}
+
+// error
+interface ErrorTypographyProps
+  extends React.ComponentProps<typeof Typography.Text> {
+  error: Error
+}
+
+export const ErrorTypography = ({
+  error,
+  ...restProps
+}: ErrorTypographyProps) => {
+  return (
+    <Typography.Text type={'danger'} {...restProps}>
+      {error.message}
+    </Typography.Text>
+  )
 }
