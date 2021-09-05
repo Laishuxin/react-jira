@@ -5,13 +5,16 @@ import { Form, Input, Select } from 'antd'
 import { IUser } from 'types/user-types'
 import { IProject } from '../../types/project-types'
 
-interface IPropTypes {
+interface SearchPanelProps {
   users: IUser[]
-  param: Partial<IProject>
-  setParam: any
+  param: {
+    name: string
+    personId: string
+  }
+  setParam: (param: SearchPanelProps['param']) => void
 }
 
-export const SearchPanel = (props: IPropTypes) => {
+export const SearchPanel = (props: SearchPanelProps) => {
   const { param, setParam, users } = props
 
   return (
@@ -32,11 +35,11 @@ export const SearchPanel = (props: IPropTypes) => {
       <Form.Item>
         <Select
           value={param.personId}
-          onChange={value => setParam({ ...param, personId: Number(value) })}
+          onChange={value => setParam({ ...param, personId: value })}
         >
           <Select.Option value={''}>负责人</Select.Option>
           {users.map(user => (
-            <Select.Option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={String(user.id)}>
               {user.name}
             </Select.Option>
           ))}

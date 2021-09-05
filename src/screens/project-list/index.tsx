@@ -8,13 +8,13 @@ import { ErrorTypography } from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-document-title'
+import { useUrlQueryParam } from '../../shared/hooks/use-query-param'
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
-    name: '',
-    personId: '',
-  })
+  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
+
   useDocumentTitle('Project List')
+  // const [param] = useUrlSearchParam([''])
   const debouncedParam = useDebounce(param, 200)
   const { data: list, error, isLoading } = useProjects(debouncedParam)
   const { data: users } = useUsers()
