@@ -10,12 +10,14 @@ import { ErrorTypography } from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { IUser } from '../../types/user-types'
+import { useDocumentTitle } from '../../shared/hooks/use-document-title'
 
 export const ProjectScreen = () => {
   const [param, setParam] = useState({
     name: '',
     personId: '',
   })
+  useDocumentTitle('Project List')
   const debouncedParam = useDebounce(param, 200)
   const { data: list, error, isLoading } = useProjects(debouncedParam)
   const { data: users } = useUsers()
@@ -23,13 +25,6 @@ export const ProjectScreen = () => {
   return (
     <Container>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
-      <button
-        onClick={() => {
-          throw new Error('认为异常')
-        }}
-      >
-        抛出异常
-      </button>
       {error ? <ErrorTypography error={error} /> : null}
       <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
