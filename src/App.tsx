@@ -1,6 +1,7 @@
+import React from 'react'
 import { AuthenticatedApp } from 'authenticated-app'
 import { useAuth } from 'context/auth-context'
-import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { UnAuthenticatedApp } from 'unauthenticated-app'
 import 'App.css'
 import { FullPageErrorFeedback } from './components/common/lib'
@@ -11,7 +12,7 @@ function App() {
   return (
     <div className='App'>
       <ErrorBoundary fallbackRender={FullPageErrorFeedback}>
-        {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
+        <Router>{user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}</Router>
       </ErrorBoundary>
     </div>
   )

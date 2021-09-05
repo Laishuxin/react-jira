@@ -12,7 +12,7 @@ import { useUsers } from '../../shared/hooks/use-users'
 import { IUser } from '../../types/user-types'
 import { useDocumentTitle } from '../../shared/hooks/use-document-title'
 
-export const ProjectScreen = () => {
+export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
     personId: '',

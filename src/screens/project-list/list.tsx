@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import { ColumnsType } from 'antd/lib/table'
 import { IProject } from 'types/project-types'
 import { IUser } from 'types/user-types'
+import { Link } from 'react-router-dom'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
@@ -15,8 +16,10 @@ export const List = (props: IPropTypes) => {
   const columns: ColumnsType<IProject> = [
     {
       title: '名称',
-      dataIndex: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render(_, project) {
+        return <Link to={String(project.id)}>{project.name}</Link>
+      },
     },
     {
       title: '部门',

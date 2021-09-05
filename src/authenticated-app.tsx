@@ -4,36 +4,49 @@ import styled from '@emotion/styled'
 import { useAuth } from 'context/auth-context'
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
 import { LinkButton, Row } from 'components/common/lib'
-import { ProjectScreen } from 'screens/project-list'
+import { ProjectListScreen } from 'screens/project-list'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { ProjectScreen } from './screens/project'
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth()
   return (
     <Container>
-      <Header between={true} marginBottom={2} as={'header'}>
-        <HeaderLeft gap={true}>
-          <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
-          <h3>项目</h3>
-          <h3>用户</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key='logout'>
-                  <LinkButton onClick={logout}>logout</LinkButton>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <LinkButton>Hi, {user!.name}</LinkButton>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
+      <PageHeader />
       <Main>
-        <ProjectScreen />
+        {/*<ProjectListScreen />*/}
+        <Routes>
+          <Route path={'/projects'} element={<ProjectListScreen />} />
+          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+          <Navigate to={'/projects'} replace={true} />
+        </Routes>
       </Main>
     </Container>
+  )
+}
+
+const PageHeader = () => {
+  const { logout, user } = useAuth()
+  return (
+    <Header between={true} marginBottom={2} as={'header'}>
+      <HeaderLeft gap={true}>
+        <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+        <h3>项目</h3>
+        <h3>用户</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key='logout'>
+                <LinkButton onClick={logout}>logout</LinkButton>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <LinkButton>Hi, {user!.name}</LinkButton>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   )
 }
 
