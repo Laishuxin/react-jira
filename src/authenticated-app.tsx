@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Dropdown, Menu } from 'antd'
+import { Dropdown, Menu } from 'antd'
 import styled from '@emotion/styled'
 import { useAuth } from 'context/auth-context'
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
@@ -7,6 +7,7 @@ import { LinkButton, Row } from 'components/common/lib'
 import { ProjectListScreen } from 'screens/project-list'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProjectScreen } from './screens/project'
+import { resetRoute } from './shared/utils'
 
 export const AuthenticatedApp = () => {
   return (
@@ -29,7 +30,9 @@ const PageHeader = () => {
   return (
     <Header between={true} marginBottom={2} as={'header'}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+        <LinkButton onClick={resetRoute}>
+          <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+        </LinkButton>
         <h3>项目</h3>
         <h3>用户</h3>
       </HeaderLeft>

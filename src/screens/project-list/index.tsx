@@ -1,15 +1,12 @@
 import React from 'react'
 import { SearchPanel } from './search-panel'
 import { List } from './list'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import { useDebounce } from 'shared/hooks/use-debounce'
-import { useHttp } from 'api/http'
-import { useMount } from 'shared/hooks/use-mount'
 import { ErrorTypography } from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
-import { IUser } from '../../types/user-types'
 import { useDocumentTitle } from '../../shared/hooks/use-document-title'
 
 export const ProjectListScreen = () => {
