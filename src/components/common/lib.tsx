@@ -69,17 +69,20 @@ export const ErrorTypography = ({
   )
 }
 
-export const FullPageErrorFeedback = ({error}: {error: Error}) => {
-  return <FullPage>
-    <ErrorTypography error={error} />
-    <DevTools />
-  </FullPage>
+export const FullPageErrorFeedback = ({ error }: { error: Error | null }) => {
+  return (
+    <FullPage>
+      {error ? <ErrorTypography error={error} /> : null}
+      <DevTools />
+    </FullPage>
+  )
 }
 
 // loading
 export const FullPageLoading = () => {
-  return <FullPage>
-    <Spin size={"large"}/>
-  </FullPage>
+  return (
+    <FullPage>
+      <Spin size={'large'} />
+    </FullPage>
+  )
 }
-

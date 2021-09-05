@@ -23,6 +23,13 @@ export const ProjectScreen = () => {
   return (
     <Container>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
+      <button
+        onClick={() => {
+          throw new Error('认为异常')
+        }}
+      >
+        抛出异常
+      </button>
       {error ? <ErrorTypography error={error} /> : null}
       <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
