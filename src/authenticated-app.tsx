@@ -3,7 +3,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import styled from '@emotion/styled'
 import { useAuth } from 'context/auth-context'
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
-import { Row } from 'components/common'
+import { Row } from 'components/common/lib'
 import { ProjectScreen } from 'screens/project-list'
 
 export const AuthenticatedApp = () => {

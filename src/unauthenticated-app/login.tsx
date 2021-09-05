@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input } from 'antd'
 import { useAuth } from 'context/auth-context'
-import { LongButton } from 'components/common'
+import { LongButton } from 'components/common/lib'
 
 export const LoginScreen = () => {
   const { login } = useAuth()

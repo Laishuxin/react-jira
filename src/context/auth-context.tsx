@@ -1,8 +1,9 @@
 import React, { createContext, useState, useContext } from 'react'
-import { IAuthForm, IRegisterForm, IUser } from 'types'
-import * as auth from 'api/auth-provider'
+import * as auth from 'api/auth'
 import { http } from 'api/http'
-import { useMount } from 'shared/hooks'
+import { useMount } from 'shared/hooks/use-mount'
+import { IUser } from 'types/user-types'
+import { IAuthForm, IRegisterForm } from 'types/form-types'
 
 const bootstrapUser = async () => {
   let user = null

@@ -2,11 +2,12 @@
 import { jsx } from '@emotion/react'
 import React from 'react'
 import { Form, Input, Select } from 'antd'
-import { IParam, IUserList } from 'types'
+import { IParam } from 'types/params-types'
+import { IUser } from 'types/user-types'
 
 interface IPropTypes {
   param: IParam
-  users: IUserList
+  users: IUser[]
   setParam: React.Dispatch<IPropTypes['param']>
 }
 

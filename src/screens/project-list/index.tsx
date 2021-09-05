@@ -3,10 +3,13 @@ import { SearchPanel } from './search-panel'
 import { List } from './list'
 import { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { useDebounce, useMount } from 'shared/hooks'
-import { IParam, IProject, IUser } from 'types'
+import { useDebounce } from 'shared/hooks/use-debounce'
 import { useHttp } from 'api/http'
 import { cleanObject } from 'shared/utils'
+import { useMount } from 'shared/hooks/use-mount'
+import { IProject } from 'types/project-types'
+import { IUser } from 'types/user-types'
+import { IParam } from 'types/params-types'
 
 export const ProjectScreen = () => {
   const [list, setList] = useState<IProject[]>([])

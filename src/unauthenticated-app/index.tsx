@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Button, Card, Divider } from 'antd'
 import styled from '@emotion/styled'
 import { LoginScreen } from './login'
-import { RegisterScreen } from './register'
-import { Container } from 'components/common'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
+import { Container } from 'components/common/lib'
+import { RegisterScreen } from './register'
 
 export const UnAuthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)

@@ -1,11 +1,15 @@
+import { Button } from 'antd'
 import styled from '@emotion/styled'
-export const Container = styled.div`
+import React from 'react'
+
+// container
+export const Container = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
   line-height: 100vh;
 `
-export const Row = styled.div<{
+export const Row = styled('div')<{
   gap?: number | boolean
   between?: boolean
   marginBottom?: number
@@ -26,3 +30,14 @@ export const Row = styled.div<{
         : undefined};
   }
 `
+
+// buttons
+export const NoPaddingButton = styled(Button)`
+  padding: 0;
+`
+export const LongButton = styled(Button)`
+  width: 100%;
+`
+export const LinkButton = (props: React.ComponentProps<typeof Button>) => {
+  return <NoPaddingButton type='link' {...props} />
+}

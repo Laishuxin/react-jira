@@ -1,12 +1,13 @@
 import React from 'react'
 import { Table } from 'antd'
 import dayjs from 'dayjs'
-import { IProject, IProjectList, IUserList } from 'types'
 import { ColumnsType } from 'antd/lib/table'
+import { IProject } from 'types/project-types'
+import { IUser } from 'types/user-types'
 
 interface IPropTypes {
-  list: IProjectList
-  users: IUserList
+  list: IProject[]
+  users: IUser[]
 }
 
 export const List = (props: IPropTypes) => {

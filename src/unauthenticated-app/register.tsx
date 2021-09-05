@@ -1,12 +1,16 @@
 import React from 'react'
 import { useAuth } from 'context/auth-context'
 import { Form, Input } from 'antd'
-import { LongButton } from 'components/common'
+import { LongButton } from 'components/common/lib'
 
 export const RegisterScreen = () => {
   const { register } = useAuth()
 
-  const handleSubmit = (values: { username: string; password: string }) => {
+  const handleSubmit = (values: {
+    username: string
+    password: string
+    cpassword: string
+  }) => {
     register(values)
   }
 
@@ -24,6 +28,13 @@ export const RegisterScreen = () => {
           placeholder='Please enter password'
           type='password'
           id='password'
+        />
+      </Form.Item>
+      <Form.Item name='cpassword' rules={[{ required: true }]}>
+        <Input
+          placeholder='Please confirm password'
+          type='password'
+          id='cpassword'
         />
       </Form.Item>
       <Form.Item>
