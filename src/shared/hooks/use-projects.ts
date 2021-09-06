@@ -1,7 +1,12 @@
 import { IProject } from '../../types/project-types'
 import { useHttp } from '../../api/http'
 import { cleanObject } from '../utils'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { QueryKey, useMutation, useQuery, useQueryClient } from 'react-query'
+import {
+  useAddConfig,
+  useEditConfig,
+  useDeleteConfig,
+} from 'shared/hooks/use-config'
 
 const USE_PROJECTS_BASE_QUERY_KEY = 'projects'
 export const useProjects = (param?: Partial<IProject>) => {
@@ -12,37 +17,39 @@ export const useProjects = (param?: Partial<IProject>) => {
   )
 }
 
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
   const client = useHttp()
-  const queryClient = useQueryClient()
+  const editConfig = useEditConfig(queryKey)
 
-  return useMutation<IProject, Error, any>(
-    (param?: Partial<IProject>) =>
+  return useMutation(
+    (param: Partial<IProject>) =>
       client(`/projects/${param?.id}`, { data: param, method: 'PATCH' }),
-    {
-      onSuccess() {
-        queryClient.invalidateQueries(USE_PROJECTS_BASE_QUERY_KEY)
-      },
-      onMutate() {},
-      onError() {},
-    },
+    editConfig,
   )
 }
 
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
   const client = useHttp()
-  const queryClient = useQueryClient()
-  return useMutation<IProject, Error, any>(
+  const addConfig = useAddConfig(queryKey)
+  return useMutation(
     (params?: Partial<IProject>) =>
       client(`/projects`, {
         data: params,
         method: 'POST',
       }),
-    {
-      onSuccess() {
-        queryClient.invalidateQueries(USE_PROJECTS_BASE_QUERY_KEY)
-      },
-    },
+    addConfig,
+  )
+}
+
+export const useDeleteProject = (queryKey: QueryKey) => {
+  const client = useHttp()
+  const deleteConfig = useDeleteConfig(queryKey)
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`/projects/${id}`, {
+        method: 'DELETE',
+      }),
+    deleteConfig,
   )
 }
 

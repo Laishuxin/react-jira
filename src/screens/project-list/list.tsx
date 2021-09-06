@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown, Table, TableProps, Menu } from 'antd'
+import { Dropdown, Table, TableProps, Menu, Modal } from 'antd'
 import dayjs from 'dayjs'
 import { ColumnsType } from 'antd/lib/table'
 import { IProject } from 'types/project-types'
@@ -9,6 +9,8 @@ import { Pin } from '../../components/common/pin'
 import { useEditProject } from '../../shared/hooks/use-projects'
 import { LinkButton } from 'components/common/lib'
 import { useProjectModal } from 'shared/hooks/use-project-modal'
+import { useDeleteProject } from 'shared/hooks/use-projects'
+import { useProjectsQueryKey } from './hooks/use-projects-query-key'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
@@ -17,8 +19,8 @@ interface IPropTypes extends TableProps<IProject> {
 
 export const List = (props: IPropTypes) => {
   const { users, /*refresh, */ ...restProps } = props
-  const { mutate } = useEditProject()
-  const { open, startEdit } = useProjectModal()
+  const { mutate } = useEditProject(useProjectsQueryKey())
+
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }) /*.then(refresh)*/
 
@@ -59,24 +61,7 @@ export const List = (props: IPropTypes) => {
     },
     {
       render(_, project) {
-        return (
-          <Dropdown
-            overlay={
-              <Menu style={{ width: '8rem', textAlign: 'center' }}>
-                <Menu.Item key={'edit'}>
-                  <LinkButton onClick={() => startEdit(project.id)}>
-                    编辑
-                  </LinkButton>
-                </Menu.Item>
-                <Menu.Item key={'delete'}>
-                  <LinkButton onClick={open}>删除</LinkButton>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <LinkButton>...</LinkButton>
-          </Dropdown>
-        )
+        return <More project={project} />
       },
     },
   ]
@@ -88,5 +73,40 @@ export const List = (props: IPropTypes) => {
       columns={columns}
       {...restProps}
     />
+  )
+}
+
+const More = ({ project }: { project: IProject }) => {
+  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey())
+  const { startEdit } = useProjectModal()
+  const handleDelete = (id: number) => {
+    // TODO(rushui 2021-09-06): confirm before deleting.
+    Modal.confirm({
+      title: '确定删除这个项目吗？',
+      content: '点击确定删除',
+      okText: '确定',
+      cancelText: '取消',
+      onOk() {
+        deleteProject({ id })
+      },
+    })
+  }
+  return (
+    <Dropdown
+      overlay={
+        <Menu style={{ width: '8rem', textAlign: 'center' }}>
+          <Menu.Item key={'edit'}>
+            <LinkButton onClick={() => startEdit(project.id)}>编辑</LinkButton>
+          </Menu.Item>
+          <Menu.Item key={'delete'}>
+            <LinkButton onClick={() => handleDelete(project.id)}>
+              删除
+            </LinkButton>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <LinkButton>...</LinkButton>
+    </Dropdown>
   )
 }

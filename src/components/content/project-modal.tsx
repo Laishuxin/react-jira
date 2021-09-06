@@ -5,6 +5,7 @@ import { ErrorTypography, LargeSpin } from 'components/common/lib'
 import { UserSelect } from './user-select'
 import { useEditProject, useAddProject } from 'shared/hooks/use-projects'
 import styled from '@emotion/styled'
+import { useProjectsQueryKey } from 'screens/project-list/hooks/use-projects-query-key'
 const { useForm } = Form
 
 export const ProjectModal = () => {
@@ -17,7 +18,11 @@ export const ProjectModal = () => {
   } = useProjectModal()
 
   const useMutateProject = isEditingProject ? useEditProject : useAddProject
-  const { mutateAsync, isLoading: isMutateLoading, error } = useMutateProject()
+  const {
+    mutateAsync,
+    isLoading: isMutateLoading,
+    error,
+  } = useMutateProject(useProjectsQueryKey())
   const [form] = useForm()
   const modalClose = () => {
     form.resetFields()

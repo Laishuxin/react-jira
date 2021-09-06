@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useUrlQueryParam } from 'shared/hooks/use-query-param'
 
 export const useProjectsSearchParams = () => {
