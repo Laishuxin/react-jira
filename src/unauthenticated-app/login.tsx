@@ -19,7 +19,7 @@ export const LoginScreen = ({ onError, onChange }: ILoginScreenProps) => {
     try {
       await run(login(values))
     } catch (e) {
-      return onError?.(e)
+      return onError?.(e as any)
     }
   }
 

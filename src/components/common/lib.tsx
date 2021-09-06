@@ -41,6 +41,10 @@ export const Row = styled('div')<{
   }
 `
 
+export const LargeSpin = () => {
+  return <Spin size={'large'} />
+}
+
 // buttons
 export const NoPaddingButton = styled(Button)`
   padding: 0;
@@ -55,18 +59,20 @@ export const LinkButton = (props: React.ComponentProps<typeof Button>) => {
 // error
 interface ErrorTypographyProps
   extends React.ComponentProps<typeof Typography.Text> {
-  error: Error
+  error: Error | unknown
 }
 
+const isError = (error: any): error is Error =>
+  error && error.message !== null && error.message !== undefined
 export const ErrorTypography = ({
   error,
   ...restProps
 }: ErrorTypographyProps) => {
-  return (
+  return isError(error) ? (
     <Typography.Text type={'danger'} {...restProps}>
       {error.message}
     </Typography.Text>
-  )
+  ) : null
 }
 
 export const FullPageErrorFeedback = ({ error }: { error: Error | null }) => {
@@ -82,7 +88,7 @@ export const FullPageErrorFeedback = ({ error }: { error: Error | null }) => {
 export const FullPageLoading = () => {
   return (
     <FullPage>
-      <Spin size={'large'} />
+      <LargeSpin />
     </FullPage>
   )
 }

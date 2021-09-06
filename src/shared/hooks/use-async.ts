@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useReducer } from 'react'
 import { useMountedRef } from 'shared/hooks/use-mounted-ref'
 
 interface IState<D> {
@@ -20,15 +20,30 @@ const defaultConfig: IConfig = {
   throwError: true,
 }
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const isMountedRef = useMountedRef()
+  return useCallback(
+    (...args: T[]) => (isMountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, isMountedRef],
+  )
+}
+
 export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
-  const [state, setState] = useState<IState<D>>({
-    ...defaultState,
-    ...initialState,
-  })
   const { throwError } = {
     ...defaultConfig,
     ...config,
   }
+
+  const [state, dispatch] = useReducer(
+    (state: IState<D>, action: Partial<IState<D>>) => ({ ...state, ...action }),
+    {
+      ...defaultState,
+      ...initialState,
+    },
+  )
+
+  const safeDispatch = useSafeDispatch(dispatch)
+
   const [retry, setRetry] = useState<(...args: any[]) => Promise<D>>(
     () => () => Promise.resolve() as any,
   )
@@ -36,22 +51,22 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
 
   const setData = useCallback(
     (data: D) =>
-      setState({
+      safeDispatch({
         data,
         stat: 'success',
         error: null,
       }),
-    [],
+    [safeDispatch],
   )
 
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         error,
         stat: 'error',
         data: null,
       }),
-    [],
+    [safeDispatch],
   )
 
   const run = useCallback(
@@ -62,21 +77,21 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
       if (!promise || !promise.then) {
         throw new Error('请传入 Promise 类型数据')
       }
-      setState(state => ({ ...state, stat: 'loading' }))
+      safeDispatch({ stat: 'loading' })
       if (config) {
         setRetry(() => () => run(config.retry()))
       }
       return promise
         .then(data => {
-          if (mountedRef.current) setData(data)
+          setData(data)
           return data
         })
         .catch(error => {
-          if (mountedRef.current) setError(error)
+          setError(error)
           return throwError ? Promise.reject(error) : error
         })
     },
-    [mountedRef, setData, setError, throwError],
+    [safeDispatch, setData, setError, throwError],
   )
 
   return {

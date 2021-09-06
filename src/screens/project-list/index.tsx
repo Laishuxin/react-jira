@@ -20,7 +20,7 @@ export const ProjectListScreen = () => {
     data: list,
     error,
     isLoading,
-    retry,
+    // retry,
   } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
   const { open } = useProjectModal()
@@ -34,7 +34,7 @@ export const ProjectListScreen = () => {
       <SearchPanel param={param} setParam={setParam} />
       {error ? <ErrorTypography error={error} /> : null}
       <List
-        refresh={retry}
+        // refresh={retry}
         dataSource={list || []}
         users={users || []}
         loading={isLoading}

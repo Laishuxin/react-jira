@@ -1,16 +1,13 @@
 import { IUser } from '../../types/user-types'
-import { useAsync } from './use-async'
-import { IProject } from '../../types/project-types'
 import { useHttp } from '../../api/http'
-import { useEffect } from 'react'
 import { cleanObject } from '../utils'
+import { useQuery } from 'react-query'
 
+const USE_USERS_BASE_QUERY_KEY = 'users'
 export const useUsers = (param?: Partial<IUser>) => {
-  const { run, ...result } = useAsync<IUser[]>()
   const client = useHttp()
-  useEffect(() => {
-    run(client('/users', { data: cleanObject(param) }))
-  }, [client, param, run])
 
-  return result
+  return useQuery<IUser[]>([USE_USERS_BASE_QUERY_KEY, param], () =>
+    client('/users', { data: cleanObject(param) }),
+  )
 }

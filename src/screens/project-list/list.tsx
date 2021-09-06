@@ -12,20 +12,20 @@ import { useProjectModal } from 'shared/hooks/use-project-modal'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
-  refresh: (...args: any[]) => Promise<IProject[]>
+  // refresh: (...args: any[]) => Promise<IProject[]>
 }
 
 export const List = (props: IPropTypes) => {
-  const { users, refresh, ...restProps } = props
+  const { users, /*refresh, */ ...restProps } = props
   const { mutate } = useEditProject()
+  const { open, startEdit } = useProjectModal()
   const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(refresh)
-  const { open } = useProjectModal()
+    mutate({ id, pin }) /*.then(refresh)*/
 
   const columns: ColumnsType<IProject> = [
     {
       title: <Pin checked={false} disabled={true} />,
-      render(value, project) {
+      render(_, project) {
         return (
           <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
         )
@@ -58,13 +58,18 @@ export const List = (props: IPropTypes) => {
         project.created ? dayjs(project.created).format('YYYY-MM-DD') : '未知',
     },
     {
-      render() {
+      render(_, project) {
         return (
           <Dropdown
             overlay={
               <Menu style={{ width: '8rem', textAlign: 'center' }}>
                 <Menu.Item key={'edit'}>
-                  <LinkButton onClick={open}>编辑</LinkButton>
+                  <LinkButton onClick={() => startEdit(project.id)}>
+                    编辑
+                  </LinkButton>
+                </Menu.Item>
+                <Menu.Item key={'delete'}>
+                  <LinkButton onClick={open}>删除</LinkButton>
                 </Menu.Item>
               </Menu>
             }

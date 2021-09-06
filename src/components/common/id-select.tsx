@@ -8,7 +8,7 @@ interface IIdSelectProps
     ComponentProps<typeof Select>,
     'value' | 'onChange' | 'defaultOptionName' | 'options'
   > {
-  value: number | string | undefined | null
+  value?: number | string | undefined | null
   onChange?: (value?: number) => void
   defaultOptionName?: string
   options?: { name: string; id: number }[]
