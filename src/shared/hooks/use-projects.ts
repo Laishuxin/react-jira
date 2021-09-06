@@ -9,8 +9,10 @@ export const useProjects = (param?: Partial<IProject>) => {
   const client = useHttp()
 
   // todo: param ? fix
-  const fetchProjects = useCallback(() =>
-    client('/projects', { data: cleanObject(param) }), [client, param])
+  const fetchProjects = useCallback(
+    () => client('/projects', { data: cleanObject(param) }),
+    [client, param],
+  )
 
   useEffect(() => {
     run(fetchProjects(), { retry: fetchProjects })

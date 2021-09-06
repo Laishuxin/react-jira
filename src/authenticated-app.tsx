@@ -8,6 +8,8 @@ import { ProjectListScreen } from 'screens/project-list'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProjectScreen } from './screens/project'
 import { resetRoute } from './shared/utils'
+import { ProjectModal } from 'components/content/project-modal'
+import { ProjectPopover } from 'components/content/project-popover'
 
 export const AuthenticatedApp = () => {
   return (
@@ -21,35 +23,42 @@ export const AuthenticatedApp = () => {
           <Navigate to={'/projects'} replace={true} />
         </Routes>
       </Main>
+      <ProjectModal />
     </Container>
   )
 }
 
 const PageHeader = () => {
-  const { logout, user } = useAuth()
   return (
     <Header between={true} marginBottom={2} as={'header'}>
       <HeaderLeft gap={true}>
         <LinkButton onClick={resetRoute}>
           <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
         </LinkButton>
-        <h3>项目</h3>
-        <h3>用户</h3>
+        <ProjectPopover />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key='logout'>
-                <LinkButton onClick={logout}>logout</LinkButton>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <LinkButton>Hi, {user!.name}</LinkButton>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  )
+}
+
+const User = () => {
+  const { logout, user } = useAuth()
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key='logout'>
+            <LinkButton onClick={logout}>logout</LinkButton>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <LinkButton>Hi, {user!.name}</LinkButton>
+    </Dropdown>
   )
 }
 

@@ -4,11 +4,13 @@ import { SearchPanel } from './search-panel'
 import { List } from './list'
 import styled from '@emotion/styled'
 import { useDebounce } from 'shared/hooks/use-debounce'
-import { ErrorTypography } from '../../components/common/lib'
+import { ErrorTypography, LinkButton } from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-document-title'
 import { useProjectsSearchParams } from './hooks/use-projects-search-params'
+import { Row } from 'antd'
+import { useProjectModal } from 'shared/hooks/use-project-modal'
 
 export const ProjectListScreen = () => {
   useDocumentTitle('Project List')
@@ -21,9 +23,14 @@ export const ProjectListScreen = () => {
     retry,
   } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
+  const { open } = useProjectModal()
 
   return (
     <Container>
+      <Row justify={'space-between'}>
+        <h1>项目列表</h1>
+        <LinkButton onClick={open}>创建项目</LinkButton>
+      </Row>
       <SearchPanel param={param} setParam={setParam} />
       {error ? <ErrorTypography error={error} /> : null}
       <List

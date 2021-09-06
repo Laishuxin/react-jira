@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, TableProps } from 'antd'
+import { Dropdown, Table, TableProps, Menu } from 'antd'
 import dayjs from 'dayjs'
 import { ColumnsType } from 'antd/lib/table'
 import { IProject } from 'types/project-types'
@@ -7,6 +7,8 @@ import { IUser } from 'types/user-types'
 import { Link } from 'react-router-dom'
 import { Pin } from '../../components/common/pin'
 import { useEditProject } from '../../shared/hooks/use-projects'
+import { LinkButton } from 'components/common/lib'
+import { useProjectModal } from 'shared/hooks/use-project-modal'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
@@ -18,6 +20,7 @@ export const List = (props: IPropTypes) => {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh)
+  const { open } = useProjectModal()
 
   const columns: ColumnsType<IProject> = [
     {
@@ -53,6 +56,23 @@ export const List = (props: IPropTypes) => {
       title: '创建时间',
       render: (_, project) =>
         project.created ? dayjs(project.created).format('YYYY-MM-DD') : '未知',
+    },
+    {
+      render() {
+        return (
+          <Dropdown
+            overlay={
+              <Menu style={{ width: '8rem', textAlign: 'center' }}>
+                <Menu.Item key={'edit'}>
+                  <LinkButton onClick={open}>编辑</LinkButton>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <LinkButton>...</LinkButton>
+          </Dropdown>
+        )
+      },
     },
   ]
   return (
