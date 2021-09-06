@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useMountedRef } from 'shared/hooks/use-mounted-ref'
 
 interface IState<D> {
   error: null | Error
@@ -31,6 +32,7 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
   const [retry, setRetry] = useState<(...args: any[]) => Promise<D>>(
     () => () => Promise.resolve() as any,
   )
+  const mountedRef = useMountedRef()
 
   const setData = useCallback(
     (data: D) =>
@@ -66,11 +68,13 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
       }
       return promise
         .then(data => {
-          setData(data)
+          if (mountedRef.current)
+            setData(data)
           return data
         })
         .catch(error => {
-          setError(error)
+          if (mountedRef.current)
+            setError(error)
           return throwError ? Promise.reject(error) : error
         })
     },
