@@ -9,7 +9,9 @@ export const useProjects = (param?: Partial<IProject>) => {
   const client = useHttp()
 
   useEffect(() => {
-    run(client('/projects', { data: cleanObject(param) }))
+    const fetchProjects = () =>
+      client('/projects', { data: cleanObject(param) })
+    run(fetchProjects(), { retry: fetchProjects })
   }, [param])
 
   return result

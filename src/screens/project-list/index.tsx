@@ -14,14 +14,24 @@ export const ProjectListScreen = () => {
   useDocumentTitle('Project List')
 
   const [param, setParam] = useProjectsSearchParams()
-  const { data: list, error, isLoading } = useProjects(useDebounce(param, 200))
+  const {
+    data: list,
+    error,
+    isLoading,
+    retry,
+  } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
 
   return (
     <Container>
       <SearchPanel param={param} setParam={setParam} />
       {error ? <ErrorTypography error={error} /> : null}
-      <List dataSource={list || []} users={users || []} loading={isLoading} />
+      <List
+        refresh={retry}
+        dataSource={list || []}
+        users={users || []}
+        loading={isLoading}
+      />
     </Container>
   )
 }

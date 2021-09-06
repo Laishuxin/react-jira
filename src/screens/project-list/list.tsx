@@ -10,12 +10,14 @@ import { useEditProject } from '../../shared/hooks/use-projects'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
+  refresh: (...args: any[]) => Promise<IProject[]>
 }
 
 export const List = (props: IPropTypes) => {
-  const { users, ...restProps } = props
+  const { users, refresh, ...restProps } = props
   const { mutate } = useEditProject()
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(refresh)
 
   const columns: ColumnsType<IProject> = [
     {
