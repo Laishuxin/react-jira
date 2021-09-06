@@ -7,6 +7,7 @@ export const useDocumentTitle = (newTitle: string, keepUnMount = false) => {
     document.title = newTitle
     return () => {
       if (!keepUnMount) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         document.title = oldTitle.current
       }
     }

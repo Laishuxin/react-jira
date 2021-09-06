@@ -10,7 +10,7 @@ export const useUsers = (param?: Partial<IUser>) => {
   const client = useHttp()
   useEffect(() => {
     run(client('/users', { data: cleanObject(param) }))
-  }, [param])
+  }, [client, param, run])
 
   return result
 }

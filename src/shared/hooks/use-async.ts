@@ -68,17 +68,15 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
       }
       return promise
         .then(data => {
-          if (mountedRef.current)
-            setData(data)
+          if (mountedRef.current) setData(data)
           return data
         })
         .catch(error => {
-          if (mountedRef.current)
-            setError(error)
+          if (mountedRef.current) setError(error)
           return throwError ? Promise.reject(error) : error
         })
     },
-    [setData],
+    [mountedRef, setData, setError, throwError],
   )
 
   return {

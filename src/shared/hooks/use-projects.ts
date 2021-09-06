@@ -1,6 +1,6 @@
 import { IProject } from '../../types/project-types'
 import { useAsync } from './use-async'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useHttp } from '../../api/http'
 import { cleanObject } from '../utils'
 
@@ -8,11 +8,13 @@ export const useProjects = (param?: Partial<IProject>) => {
   const { run, ...result } = useAsync<IProject[]>()
   const client = useHttp()
 
+  // todo: param ? fix
+  const fetchProjects = useCallback(() =>
+    client('/projects', { data: cleanObject(param) }), [client, param])
+
   useEffect(() => {
-    const fetchProjects = () =>
-      client('/projects', { data: cleanObject(param) })
     run(fetchProjects(), { retry: fetchProjects })
-  }, [param])
+  }, [fetchProjects, run])
 
   return result
 }
