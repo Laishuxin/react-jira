@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { UnAuthenticatedApp } from 'unauthenticated-app'
 import 'App.css'
 import { FullPageErrorFeedback } from './components/common/lib'
-import { ErrorBoundary } from './components/common/ErrorBoundary'
+import { ErrorBoundary } from './components/common/error-boundary'
 
 function App() {
   const { user } = useAuth()

@@ -5,6 +5,8 @@ import { ColumnsType } from 'antd/lib/table'
 import { IProject } from 'types/project-types'
 import { IUser } from 'types/user-types'
 import { Link } from 'react-router-dom'
+import { Pin } from '../../components/common/pin'
+import { useEditProject } from '../../shared/hooks/use-projects'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
@@ -12,8 +14,18 @@ interface IPropTypes extends TableProps<IProject> {
 
 export const List = (props: IPropTypes) => {
   const { users, ...restProps } = props
+  const { mutate } = useEditProject()
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
 
   const columns: ColumnsType<IProject> = [
+    {
+      title: <Pin checked={false} disabled={true} />,
+      render(value, project) {
+        return (
+          <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
+        )
+      },
+    },
     {
       title: '名称',
       sorter: (a, b) => a.name.localeCompare(b.name),
