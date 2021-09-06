@@ -5,14 +5,17 @@ import reportWebVitals from './reportWebVitals'
 import { loadServer, DevTools } from 'jira-dev-tool'
 import 'antd/dist/antd.less'
 import { AppAuthProvider } from 'context'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <AppAuthProvider>
-        <DevTools />
-        <App />
-      </AppAuthProvider>
+      <Router>
+        <AppAuthProvider>
+          <DevTools />
+          <App />
+        </AppAuthProvider>
+      </Router>
     </React.StrictMode>,
     document.getElementById('root'),
   ),

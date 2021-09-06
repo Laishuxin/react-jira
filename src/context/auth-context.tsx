@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import * as auth from 'api/auth'
 import { http } from 'api/http'
 import { useMount } from 'shared/hooks/use-mount'
@@ -6,10 +6,12 @@ import { IUser } from 'types/user-types'
 import { IAuthForm, IRegisterForm } from 'types/form-types'
 import { useAsync } from '../shared/hooks/use-async'
 import {
-  FullPage,
   FullPageErrorFeedback,
   FullPageLoading,
 } from '../components/common/lib'
+import { resetRoute } from 'shared/utils'
+import { useNavigateToOrigin } from 'shared/hooks/use-navigate'
+import { useQueryClient } from 'react-query'
 
 const bootstrapUser = async () => {
   let user = null
@@ -35,6 +37,7 @@ AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // const [user, setUser] = useState<IUser | null>(null)
+  const navigateToOrigin = useNavigateToOrigin()
   const {
     data: user,
     setData: setUser,
@@ -44,7 +47,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     run,
     error,
   } = useAsync<IUser | null>()
-
   useMount(() => {
     run(bootstrapUser())
   })
@@ -52,7 +54,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = (authForm: IAuthForm) => auth.fetchLogin(authForm).then(setUser)
   const register = (authForm: IAuthForm) =>
     auth.fetchRegister(authForm).then(setUser)
-  const logout = () => auth.fetchLogout().then(() => setUser(null))
+  const queryClient = useQueryClient()
+  const logout = () =>
+    auth.fetchLogout().then(() => {
+      setUser(null)
+      // resetRoute()
+      navigateToOrigin()
+      queryClient.clear()
+    })
 
   if (isLoading) {
     return <FullPageLoading />

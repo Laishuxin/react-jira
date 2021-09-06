@@ -6,13 +6,14 @@ import { UnAuthenticatedApp } from 'unauthenticated-app'
 import 'App.css'
 import { FullPageErrorFeedback } from './components/common/lib'
 import { ErrorBoundary } from './components/common/error-boundary'
+import { AppAuthProvider } from 'context'
 
 function App() {
   const { user } = useAuth()
   return (
     <div className='App'>
       <ErrorBoundary fallbackRender={FullPageErrorFeedback}>
-        <Router>{user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}</Router>
+        {user ? <AuthenticatedApp /> : <UnAuthenticatedApp />}
       </ErrorBoundary>
     </div>
   )
