@@ -16,8 +16,6 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     ),
     (params: Partial<{ [key in K]: unknown }>) => {
       return setSearchParams(params)
-      // iterator
-      // iterator: https://codesandbox.io/s/upbeat-wood-bum3j?file=/src/index.js
     },
   ] as const
 }

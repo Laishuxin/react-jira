@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useCleanSearchParams } from './use-clean-search-params'
 import { useProject } from './use-projects'
-import { useUrlQueryParam } from './use-query-param'
+import { useSetUrlSearchParam, useUrlQueryParam } from './use-query-param'
 
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
@@ -16,8 +16,6 @@ export const useProjectModal = () => {
     Number(editingProjectId),
   )
 
-  const cleanSearchParams = useCleanSearchParams()
-
   const open = useCallback(() => {
     setProjectCreate({ projectCreate: true })
   }, [setProjectCreate])
@@ -25,10 +23,11 @@ export const useProjectModal = () => {
   const startEdit = (id: number) =>
     setEditingProjectId({ editingProjectId: id })
 
+  const setUrlParams = useSetUrlSearchParam()
+
   const close = useCallback(() => {
-    // todo: 寻找更优雅的解决方案。
-    cleanSearchParams()
-  }, [cleanSearchParams])
+    setUrlParams({ projectCreate: '', editingProjectId: '' })
+  }, [setUrlParams])
 
   return {
     // two ways to open modal: open and startEdit

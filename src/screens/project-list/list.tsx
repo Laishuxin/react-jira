@@ -80,7 +80,6 @@ const More = ({ project }: { project: IProject }) => {
   const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey())
   const { startEdit } = useProjectModal()
   const handleDelete = (id: number) => {
-    // TODO(rushui 2021-09-06): confirm before deleting.
     Modal.confirm({
       title: '确定删除这个项目吗？',
       content: '点击确定删除',

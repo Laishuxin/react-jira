@@ -1,7 +1,7 @@
 import { IProject } from '../../types/project-types'
 import { useHttp } from '../../api/http'
 import { cleanObject } from '../utils'
-import { QueryKey, useMutation, useQuery, useQueryClient } from 'react-query'
+import { QueryKey, useMutation, useQuery } from 'react-query'
 import {
   useAddConfig,
   useEditConfig,
