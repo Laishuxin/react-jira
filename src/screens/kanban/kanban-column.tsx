@@ -7,6 +7,7 @@ import bugIcon from 'assets/bug.svg'
 import taskIcon from 'assets/task.svg'
 import styled from '@emotion/styled'
 import { Card } from 'antd'
+import { CreateTask } from './create-task'
 
 interface IKanbanColumnProps {
   kanban: IKanban
@@ -39,12 +40,13 @@ export const KanbanColumn = ({ kanban }: IKanbanColumnProps) => {
             </div>
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </Container>
   )
 }
 
-const Container = styled('div')`
+export const Container = styled('div')`
   display: flex;
   flex-direction: column;
   padding: 0.7rem 0.7rem 1rem;

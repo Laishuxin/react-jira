@@ -36,8 +36,10 @@ const Aside = styled('aside')`
 
 const Main = styled('div')`
   box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 `
 const Container = styled('div')`
   display: grid;
+  width: 100%;
   grid-template-columns: 18rem 1fr;
 `

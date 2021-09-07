@@ -2,7 +2,6 @@ import '../../wdyr'
 import React from 'react'
 import { SearchPanel } from './search-panel'
 import { List } from './list'
-import styled from '@emotion/styled'
 import { useDebounce } from 'shared/hooks/use-debounce'
 import {
   ErrorTypography,

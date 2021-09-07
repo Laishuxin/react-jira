@@ -53,11 +53,10 @@ export const useDeleteProject = (queryKey: QueryKey) => {
   )
 }
 
-const USE_PROJECT_BASE_QUERY_KEY = 'project'
 export const useProject = (id?: number) => {
   const client = useHttp()
   return useQuery<IProject, Error>(
-    [USE_PROJECT_BASE_QUERY_KEY, id],
+    ['project', id],
     () => client(`/projects/${id}`),
     { enabled: Boolean(id) },
   )

@@ -49,8 +49,8 @@ export const Row = styled('div')<{
   }
 `
 
-export const LargeSpin = () => {
-  return <Spin size={'large'} />
+export const LargeSpin = (props: React.ComponentProps<typeof Spin>) => {
+  return <Spin size={'large'} {...props} />
 }
 
 // buttons

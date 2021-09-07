@@ -1,6 +1,7 @@
 import { useHttp } from 'api/http'
-import { useQuery } from 'react-query'
+import { QueryKey, useMutation, useQuery } from 'react-query'
 import { ITask } from 'types/task'
+import { useAddConfig } from './use-config'
 
 export const useTasks = (param?: Partial<ITask>) => {
   const client = useHttp()
@@ -8,5 +9,17 @@ export const useTasks = (param?: Partial<ITask>) => {
     client('/tasks', {
       data: param,
     }),
+  )
+}
+
+export const useAddTask = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    (params?: Partial<ITask>) =>
+      client(`/tasks`, {
+        data: params,
+        method: 'POST',
+      }),
+    useAddConfig(queryKey),
   )
 }
