@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react'
-import React from 'react'
-import { Form, Input, Select } from 'antd'
+import { Form, Input } from 'antd'
 import { IProject } from '../../types/project-types'
 import { UserSelect } from '../../components/content/user-select'
 

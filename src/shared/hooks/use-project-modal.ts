@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { useCleanSearchParams } from './use-clean-search-params'
 import { useProject } from './use-projects'
 import { useSetUrlSearchParam, useUrlQueryParam } from './use-query-param'
 
@@ -31,12 +30,12 @@ export const useProjectModal = () => {
 
   return {
     // two ways to open modal: open and startEdit
+    isProjectModalOpen: projectCreate === 'true' || Boolean(editingProjectId),
+    isEditingProject: Boolean(editingProjectId),
+    isLoading,
     open,
     startEdit,
     close,
     editingProject,
-    isProjectModalOpen: projectCreate === 'true' || Boolean(editingProjectId),
-    isEditingProject: Boolean(editingProjectId),
-    isLoading,
   }
 }

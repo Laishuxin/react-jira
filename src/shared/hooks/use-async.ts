@@ -47,8 +47,6 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
   const [retry, setRetry] = useState<(...args: any[]) => Promise<D>>(
     () => () => Promise.resolve() as any,
   )
-  const mountedRef = useMountedRef()
-
   const setData = useCallback(
     (data: D) =>
       safeDispatch({

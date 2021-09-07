@@ -14,15 +14,13 @@ import { useProjectsQueryKey } from './hooks/use-projects-query-key'
 
 interface IPropTypes extends TableProps<IProject> {
   users: IUser[]
-  // refresh: (...args: any[]) => Promise<IProject[]>
 }
 
 export const List = (props: IPropTypes) => {
-  const { users, /*refresh, */ ...restProps } = props
+  const { users, ...restProps } = props
   const { mutate } = useEditProject(useProjectsQueryKey())
 
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }) /*.then(refresh)*/
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
 
   const columns: ColumnsType<IProject> = [
     {
@@ -65,6 +63,7 @@ export const List = (props: IPropTypes) => {
       },
     },
   ]
+
   return (
     <Table
       className='list'

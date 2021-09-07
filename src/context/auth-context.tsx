@@ -36,7 +36,6 @@ const AuthContext = createContext<
 AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // const [user, setUser] = useState<IUser | null>(null)
   const navigateToOrigin = useNavigateToOrigin()
   const {
     data: user,
@@ -58,7 +57,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () =>
     auth.fetchLogout().then(() => {
       setUser(null)
-      // resetRoute()
       navigateToOrigin()
       queryClient.clear()
     })

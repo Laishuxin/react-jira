@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  Fragment,
-  PropsWithChildren,
-  ReactElement,
-} from 'react'
+import { Component, PropsWithChildren, ReactElement } from 'react'
 
 type FallbackRender = (props: { error: Error | null }) => ReactElement
 
