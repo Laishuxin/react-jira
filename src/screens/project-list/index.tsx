@@ -4,7 +4,11 @@ import { SearchPanel } from './search-panel'
 import { List } from './list'
 import styled from '@emotion/styled'
 import { useDebounce } from 'shared/hooks/use-debounce'
-import { ErrorTypography, LinkButton } from '../../components/common/lib'
+import {
+  ErrorTypography,
+  LinkButton,
+  ScreenContainer,
+} from '../../components/common/lib'
 import { useProjects } from '../../shared/hooks/use-projects'
 import { useUsers } from '../../shared/hooks/use-users'
 import { useDocumentTitle } from '../../shared/hooks/use-document-title'
@@ -16,35 +20,19 @@ export const ProjectListScreen = () => {
   useDocumentTitle('Project List')
 
   const [param, setParam] = useProjectsSearchParams()
-  const {
-    data: list,
-    error,
-    isLoading,
-    // retry,
-  } = useProjects(useDebounce(param, 200))
+  const { data: list, error, isLoading } = useProjects(useDebounce(param, 200))
   const { data: users } = useUsers()
   const { open } = useProjectModal()
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
         <LinkButton onClick={open}>创建项目</LinkButton>
       </Row>
       <SearchPanel param={param} setParam={setParam} />
       {error ? <ErrorTypography error={error} /> : null}
-      <List
-        // refresh={retry}
-        dataSource={list || []}
-        users={users || []}
-        loading={isLoading}
-      />
-    </Container>
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
+    </ScreenContainer>
   )
 }
-
-const Container = styled.div`
-  padding: 3.2rem;
-`
-
-// ProjectListScreen.whyDidYouRender = true

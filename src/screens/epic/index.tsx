@@ -1,4 +1,9 @@
+import { ScreenContainer } from 'components/common/lib'
 import React from 'react'
 export const EpicScreen = () => {
-  return <h1>epic screen</h1>
+  return (
+    <ScreenContainer>
+      <h1>epic screen</h1>
+    </ScreenContainer>
+  )
 }

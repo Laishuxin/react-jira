@@ -22,12 +22,14 @@ export const AuthenticatedApp = () => {
   )
 }
 
-const Container = styled.div`
+const Container = styled('div')`
   display: grid;
   grid-template-rows: 6rem 1fr 6rem;
   height: 100vh;
 `
 
-const Main = styled.main`
+const Main = styled('main')`
+  display: flex;
   height: calc(100vh - 6rem);
+  overflow: hidden;
 `

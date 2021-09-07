@@ -11,6 +11,14 @@ export const Container = styled('div')`
   line-height: 100vh;
 `
 
+export const ScreenContainer = styled('div')`
+  padding: 3.2rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 export const FullPage = styled('div')`
   display: flex;
   justify-content: center;
