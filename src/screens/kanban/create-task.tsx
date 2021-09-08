@@ -9,6 +9,7 @@ export const CreateTask = ({ kanbanId }: { kanbanId: number }) => {
   const projectId = useProjectIdInUrl()
   const [inputMode, setInputMode] = useState(false)
 
+  // TODO(rushui 2021-09-08): 处理错误情况
   const submit = async () => {
     // TODO(rushui 2021-09-07): 更好的用户提示
     if (!name) toggle()

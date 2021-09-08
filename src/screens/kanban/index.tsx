@@ -12,6 +12,7 @@ import {
 } from './hooks/use-url'
 import { KanbanColumn } from './kanban-column'
 import { SearchPanel } from './search-panel'
+import { TasksModal } from './tasks-modal'
 
 export const KanbanScreen = () => {
   useDocumentTitle('看板列表')
@@ -38,6 +39,7 @@ export const KanbanScreen = () => {
           </Fragment>
         )}
       </ColumnContainer>
+      <TasksModal />
     </ScreenContainer>
   )
 }

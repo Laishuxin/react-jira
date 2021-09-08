@@ -50,7 +50,17 @@ export const Row = styled('div')<{
 `
 
 export const LargeSpin = (props: React.ComponentProps<typeof Spin>) => {
-  return <Spin size={'large'} {...props} />
+  return (
+    <Spin
+      size={'large'}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      {...props}
+    />
+  )
 }
 
 // buttons

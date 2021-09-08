@@ -8,6 +8,7 @@ import taskIcon from 'assets/task.svg'
 import styled from '@emotion/styled'
 import { Card } from 'antd'
 import { CreateTask } from './create-task'
+import { useTasksModal } from 'shared/hooks/use-task-modal'
 
 interface IKanbanColumnProps {
   kanban: IKanban
@@ -27,13 +28,19 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 export const KanbanColumn = ({ kanban }: IKanbanColumnProps) => {
   const { data: allTasks = [] } = useTasks(useTasksSearchParams())
   const tasks = allTasks.filter(task => task.kanbanId === kanban.id)
+  const { startEdit } = useTasksModal()
 
   return (
     <Container>
       <h3>{kanban.name}</h3>
       <TaskContainer>
         {tasks.map(task => (
-          <Card style={{ marginBottom: '0.5rem' }} key={task.id}>
+          // TODO(rushui 2021-09-08): 事件代理
+          <Card
+            onClick={() => startEdit(task.id)}
+            style={{ marginBottom: '0.5rem', cursor: 'pointer' }}
+            key={task.id}
+          >
             <div>
               <p>{task.name}</p>
               <TaskTypeIcon id={task.typeId} />
