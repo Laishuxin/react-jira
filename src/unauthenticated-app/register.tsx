@@ -24,7 +24,7 @@ export const RegisterScreen = ({ onError, onChange }: IRegisterScreenProps) => {
     try {
       await run(register(values))
     } catch (e) {
-      onError?.(e)
+      onError?.(e as any)
     }
   }
 
