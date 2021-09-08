@@ -1,5 +1,5 @@
-import { IUser } from 'types/user-types'
-import { IAuthForm, IRegisterForm } from 'types/form-types'
+import { IAuthForm, IRegisterForm } from 'types/form'
+import { IUser } from 'types/user'
 import { http } from './http'
 const localStorageKey = '__auth__provider_token__'
 

@@ -1,4 +1,4 @@
-import { IProject } from '../../types/project-types'
+import { IProject } from '../../types/project'
 import { useHttp } from '../../api/http'
 import { cleanObject } from '../utils'
 import { QueryKey, useMutation, useQuery } from 'react-query'

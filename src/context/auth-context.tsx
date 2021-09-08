@@ -2,8 +2,8 @@ import React, { createContext, useContext } from 'react'
 import * as auth from 'api/auth'
 import { http } from 'api/http'
 import { useMount } from 'shared/hooks/use-mount'
-import { IUser } from 'types/user-types'
-import { IAuthForm, IRegisterForm } from 'types/form-types'
+import { IUser } from 'types/user'
+import { IAuthForm, IRegisterForm } from 'types/form'
 import { useAsync } from '../shared/hooks/use-async'
 import {
   FullPageErrorFeedback,

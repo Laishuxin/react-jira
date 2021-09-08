@@ -8,3 +8,8 @@ export interface ITask {
   typeId: number // 任务的类型 id
   note: string
 }
+
+export interface ITaskType {
+  id: number
+  name: string
+}

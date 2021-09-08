@@ -1,4 +1,4 @@
-import { IUser } from '../../types/user-types'
+import { IUser } from '../../types/user'
 import { useHttp } from '../../api/http'
 import { cleanObject } from '../utils'
 import { useQuery } from 'react-query'
