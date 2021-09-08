@@ -29,3 +29,46 @@ export const subset = <
 }
 
 export const resetRoute = () => (window.location.href = window.location.origin)
+
+type Option = {
+  wait?: number
+  immediate?: boolean
+}
+const defaultOption: Option = {
+  wait: 1000,
+  immediate: false,
+}
+export const debounce = <Fn extends (...args: any[]) => any>(
+  fn: Fn,
+  option?: Option,
+) => {
+  const { wait, immediate } = {
+    ...defaultOption,
+    ...option,
+  } as Required<Option>
+
+  let time: any = undefined
+
+  return function (...args: Parameters<Fn>): ReturnType<Fn> | undefined {
+    let result: ReturnType<Fn> | undefined
+    const callNow = Boolean(time)
+    if (time) {
+      clearTimeout(time)
+      time = null
+    }
+
+    if (immediate) {
+      // @ts-ignore
+      if (callNow) result = fn.apply(this, args)
+      time = setTimeout(() => {
+        time = null
+      }, wait)
+    } else {
+      time = setTimeout(() => {
+        // @ts-ignore
+        result = fn.apply(this, args)
+      }, wait)
+    }
+    return result
+  }
+}
