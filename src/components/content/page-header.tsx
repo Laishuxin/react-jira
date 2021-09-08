@@ -6,6 +6,7 @@ import { resetRoute } from 'shared/utils'
 import { ProjectPopover } from 'components/content/project-popover'
 import { useAuth } from 'context/auth-context'
 import styled from '@emotion/styled'
+import { UserPopover } from './user-list'
 
 export const PageHeader = () => {
   return (
@@ -15,7 +16,7 @@ export const PageHeader = () => {
           <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
         </LinkButton>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />
