@@ -1,7 +1,7 @@
 import { useHttp } from 'api/http'
 import { QueryKey, useMutation, useQuery } from 'react-query'
 import { ITask } from 'types/task'
-import { useAddConfig, useEditConfig } from './use-config'
+import { useAddConfig, useDeleteConfig, useEditConfig } from './use-config'
 
 export const useTasks = (param?: Partial<ITask>) => {
   const client = useHttp()
@@ -21,6 +21,17 @@ export const useAddTask = (queryKey: QueryKey) => {
         method: 'POST',
       }),
     useAddConfig(queryKey),
+  )
+}
+
+export const useDeleteTask = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`/tasks/${id}`, {
+        method: 'DELETE',
+      }),
+    useDeleteConfig(queryKey),
   )
 }
 

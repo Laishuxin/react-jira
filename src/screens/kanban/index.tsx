@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { LargeSpin, ScreenContainer } from 'components/common/lib'
 import React, { Fragment } from 'react'
 import { useDocumentTitle } from 'shared/hooks/use-document-title'
-import { useKanbans } from 'shared/hooks/use-kanban'
+import { useKanbans } from 'shared/hooks/use-kanbans'
 import { useTasks } from 'shared/hooks/use-tasks'
 import { CreateKanban } from './create-kanban'
 import {
