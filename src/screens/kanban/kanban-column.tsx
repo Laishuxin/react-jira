@@ -112,7 +112,7 @@ export const Container = styled('div')`
 `
 
 const TaskContainer = styled('div')`
-  overflow: scroll;
+  overflow: auto;
   flex: 1;
   scrollbar-width: none;
   ::-webkit-scrollbar {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { List } from 'antd'
 import dayjs from 'dayjs'
@@ -10,6 +10,7 @@ import { useTasks } from 'shared/hooks/use-tasks'
 import { ITask } from 'types/task'
 import { useProjectInUrl } from 'screens/project/hooks/use-url'
 import { confirm } from 'components/common/confirm'
+import { CreateEpic } from './create-epic'
 
 const getCurrentTaskByEpicId = (tasks: ITask[], id: number) => {
   return tasks.filter(task => task.epicId === id)
@@ -19,16 +20,26 @@ export const EpicScreen = () => {
   const { data: currentProject } = useProjectInUrl()
   const { data: epics = [] } = useEpics(useEpicSearchParams())
   const { data: tasks = [] } = useTasks({ processorId: currentProject?.id })
+  const [isEpicCreateOpen, setIsEpicCreateOpen] = useState(false)
 
   if (!currentProject) return <h1>当前任务不存在</h1>
 
   return (
     <ScreenContainer>
-      <h1>{currentProject.name}任务组</h1>
+      <Row between={true}>
+        <h1>{currentProject.name}任务组</h1>
+        <LinkButton onClick={() => setIsEpicCreateOpen(true)}>
+          创建任务组
+        </LinkButton>
+      </Row>
       <EpicsList
         epics={epics}
         tasks={tasks}
         currentProjectId={currentProject.id}
+      />
+      <CreateEpic
+        onClose={() => setIsEpicCreateOpen(false)}
+        visible={isEpicCreateOpen}
       />
     </ScreenContainer>
   )
@@ -56,13 +67,17 @@ const EpicsList = (props: IEpicsProps) => {
     <List
       dataSource={epics}
       itemLayout={'vertical'}
+      style={{ overflowY: 'auto', scrollbarWidth: 'thin' }}
       renderItem={epic => (
         <List.Item>
           <List.Item.Meta
             title={
               <Row between={true}>
                 <span>{epic.name}</span>
-                <LinkButton onClick={() => handleDeleteEpic(epic.id)}>
+                <LinkButton
+                  style={{ marginRight: '4rem' }}
+                  onClick={() => handleDeleteEpic(epic.id)}
+                >
                   删除
                 </LinkButton>
               </Row>
@@ -91,10 +106,6 @@ interface IListContentProps {
   currentProjectId: number
 }
 const ListContent = ({ tasks, currentProjectId }: IListContentProps) => {
-  // const navigate = useNavigate()
-  // const handleClick = (taskId: number) => {
-  //   navigate(`/kanban?editingTaskId=${taskId}`)
-  // }
   return (
     <section>
       {tasks.map(task => (

@@ -48,6 +48,7 @@ export const ProjectModal = () => {
   return (
     <Drawer
       // forceRender={true}
+      destroyOnClose={true}
       onClose={modalClose}
       width={'100%'}
       visible={isProjectModalOpen}
