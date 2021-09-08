@@ -1,7 +1,10 @@
 import React from 'react'
 import { useTasks } from 'shared/hooks/use-tasks'
 import { IKanban } from 'types/kanban'
-import { useKanbanQueryKey, useTasksSearchParams } from './hooks/use-url'
+import {
+  useKanbanQueryKey,
+  useTasksSearchParams,
+} from '../project/hooks/use-url'
 import { useTaskTypes } from 'shared/hooks/use-task-types'
 import bugIcon from 'assets/bug.svg'
 import taskIcon from 'assets/task.svg'

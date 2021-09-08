@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useDebounce } from 'shared/hooks/use-debounce'
+import { useMemo } from 'react'
 import { useProject } from 'shared/hooks/use-projects'
 import { useUrlQueryParam } from 'shared/hooks/use-query-param'
 export const useProjectIdInUrl = () => {
@@ -32,3 +31,19 @@ export const useTasksSearchParams = () => {
   )
 }
 export const useTasksQueryKey = () => ['tasks', useTasksSearchParams()]
+
+// 匹配 路由。
+// 例如：`/projects/12/epic/`，提取出其中的 epic
+//      `/projects/12/epic?`，提取出其中的 epic
+//      `/projects/12/epic`，提取出其中的 epic
+const pattern = /\d+\/(\w*)/
+
+export const useSelectedKeys = () => {
+  const { pathname } = useLocation()
+  const selectedKeys = useMemo(() => {
+    const result = pathname.match(pattern)
+    return result && result[1] ? [result[1]] : []
+  }, [pathname])
+
+  return selectedKeys
+}

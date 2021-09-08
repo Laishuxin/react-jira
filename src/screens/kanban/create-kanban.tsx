@@ -1,7 +1,7 @@
 import { Input } from 'antd'
 import React, { useState } from 'react'
 import { useAddKanban } from 'shared/hooks/use-kanbans'
-import { useKanbanQueryKey, useProjectIdInUrl } from './hooks/use-url'
+import { useKanbanQueryKey, useProjectIdInUrl } from '../project/hooks/use-url'
 import { Container } from './kanban-column'
 
 export const CreateKanban = () => {

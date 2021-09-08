@@ -1,7 +1,7 @@
 import { Card, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useAddTask } from 'shared/hooks/use-tasks'
-import { useProjectIdInUrl, useTasksQueryKey } from './hooks/use-url'
+import { useProjectIdInUrl, useTasksQueryKey } from '../project/hooks/use-url'
 
 export const CreateTask = ({ kanbanId }: { kanbanId: number }) => {
   const [name, setName] = useState('')

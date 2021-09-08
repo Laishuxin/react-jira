@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row } from 'components/common/lib'
 import { Button, Input } from 'antd'
-import { useTasksSearchParams } from './hooks/use-url'
+import { useTasksSearchParams } from '../project/hooks/use-url'
 import { useSetUrlSearchParam } from 'shared/hooks/use-query-param'
 import { UserSelect } from 'components/content/user-select'
 import { TaskTypesSelect } from 'components/content/task-types-select'

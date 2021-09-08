@@ -9,7 +9,7 @@ import {
   useKanbanSearchParams,
   useProjectInUrl,
   useTasksSearchParams,
-} from './hooks/use-url'
+} from '../project/hooks/use-url'
 import { KanbanColumn } from './kanban-column'
 import { SearchPanel } from './search-panel'
 import { TasksModal } from './tasks-modal'

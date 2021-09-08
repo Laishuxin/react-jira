@@ -4,12 +4,14 @@ import { KanbanScreen } from '../kanban'
 import { EpicScreen } from '../epic'
 import styled from '@emotion/styled'
 import { Menu } from 'antd'
+import { useSelectedKeys } from './hooks/use-url'
 
 export const ProjectScreen = () => {
+  const selectedKeys = useSelectedKeys()
   return (
     <Container>
       <Aside>
-        <Menu mode={'inline'} defaultSelectedKeys={['kanban']}>
+        <Menu mode={'inline'} selectedKeys={selectedKeys}>
           <Menu.Item key={'kanban'}>
             <Link to={'kanban'}>看板</Link>
           </Menu.Item>
