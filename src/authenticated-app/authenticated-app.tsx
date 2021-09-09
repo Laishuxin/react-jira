@@ -12,9 +12,9 @@ export const AuthenticatedApp = () => {
       <PageHeader />
       <Main>
         <Routes>
-          <Route path={'/projects'} element={<ProjectListScreen />} />
-          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
-          <Navigate to={'/projects'} replace={true} />
+          <Route path={'projects'} element={<ProjectListScreen />} />
+          <Route path={'projects/:projectId/*'} element={<ProjectScreen />} />
+          <Navigate to={'projects'} replace={true} />
         </Routes>
       </Main>
       <ProjectModal />

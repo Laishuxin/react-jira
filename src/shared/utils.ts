@@ -1,3 +1,5 @@
+import { ROUTER_PREFIX } from 'config'
+
 // TODO(rushui 2021-08-21): add test
 export const isVoid = (val: unknown): boolean =>
   val === null || val === undefined || val === ''
@@ -28,7 +30,8 @@ export const subset = <
   return Object.fromEntries(filteredEntries) as Pick<O, K>
 }
 
-export const resetRoute = () => (window.location.href = window.location.origin)
+export const resetRoute = () =>
+  (window.location.href = window.location.origin + ROUTER_PREFIX)
 
 type Option = {
   wait?: number
