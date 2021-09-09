@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { ProjectScreen } from '../screens/project'
 import { ProjectModal } from 'components/content/project-modal'
 import { PageHeader } from '../components/content/page-header'
+import { NotFound } from 'components/common/404'
 
 export const AuthenticatedApp = () => {
   return (
@@ -12,9 +13,10 @@ export const AuthenticatedApp = () => {
       <PageHeader />
       <Main>
         <Routes>
-          <Route path={'projects'} element={<ProjectListScreen />} />
-          <Route path={'projects/:projectId/*'} element={<ProjectScreen />} />
-          <Navigate to={'projects'} replace={true} />
+          <Route path={'/projects'} element={<ProjectListScreen />} />
+          <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+          <Navigate to={'/projects'} replace={true} />
+          <Route path={'/*'} element={<NotFound />} />
         </Routes>
       </Main>
       <ProjectModal />

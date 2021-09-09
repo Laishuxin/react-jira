@@ -1,1 +1,1 @@
-export const ROUTER_PREFIX = '/jira'
+export const ROUTER_PREFIX = ''
