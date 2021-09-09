@@ -11,6 +11,7 @@ import { ITask } from 'types/task'
 import { useProjectInUrl } from 'screens/project/hooks/use-url'
 import { confirm } from 'components/common/confirm'
 import { CreateEpic } from './create-epic'
+import styled from '@emotion/styled'
 
 const getCurrentTaskByEpicId = (tasks: ITask[], id: number) => {
   return tasks.filter(task => task.epicId === id)
@@ -19,7 +20,7 @@ const getCurrentTaskByEpicId = (tasks: ITask[], id: number) => {
 export const EpicScreen = () => {
   const { data: currentProject } = useProjectInUrl()
   const { data: epics = [] } = useEpics(useEpicSearchParams())
-  const { data: tasks = [] } = useTasks({ processorId: currentProject?.id })
+  const { data: tasks = [] } = useTasks({ projectId: currentProject?.id })
   const [isEpicCreateOpen, setIsEpicCreateOpen] = useState(false)
 
   if (!currentProject) return <h1>当前任务不存在</h1>
@@ -109,10 +110,20 @@ const ListContent = ({ tasks, currentProjectId }: IListContentProps) => {
   return (
     <section>
       {tasks.map(task => (
-        <Link to={`/kanban?editingTaskId=${task.id}`} key={task.id}>
+        <Link
+          style={{ marginRight: '1rem' }}
+          to={`/kanban?editingTaskId=${task.id}`}
+          key={task.id}
+        >
           {task.name}
         </Link>
       ))}
     </section>
   )
 }
+
+const ListContentContainer = styled('section')`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`

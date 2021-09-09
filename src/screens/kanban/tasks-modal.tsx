@@ -8,6 +8,7 @@ import { TaskTypesSelect } from 'components/content/task-types-select'
 import { ITask } from 'types/task'
 import { ErrorTypography, LargeSpin, LinkButton } from 'components/common/lib'
 import { confirm } from 'components/common/confirm'
+import { EpicsSelect } from '../../components/content/epics-select'
 
 const { useForm, Item } = Form
 const layout = {
@@ -38,7 +39,9 @@ export const TasksModal = () => {
   }
 
   const modalOk = async () => {
-    await editTask({ ...editingTask, ...form.getFieldsValue() })
+    console.log('tasks modal: ', { ...editingTask, ...form.getFieldsValue() })
+    const result = await editTask({ ...editingTask, ...form.getFieldsValue() })
+    console.log(result)
     modalClose()
   }
 
@@ -92,6 +95,9 @@ const EditingTasksForm = ({
       </Item>
       <Item label={'类型'} name={'typeId'}>
         <TaskTypesSelect />
+      </Item>
+      <Item label={'任务组'} name={'epicId'}>
+        <EpicsSelect defaultOptionName={'任务组'} />
       </Item>
     </Form>
   )
