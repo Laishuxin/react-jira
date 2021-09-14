@@ -7,7 +7,7 @@ import { ProjectModal } from 'components/content/project-modal'
 import { PageHeader } from '../components/content/page-header'
 import { NotFound } from 'components/common/404'
 
-export const AuthenticatedApp = () => {
+export default function AuthenticatedApp() {
   return (
     <Container>
       <PageHeader />

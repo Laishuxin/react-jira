@@ -8,7 +8,7 @@ import right from 'assets/right.svg'
 import { Container, ErrorTypography } from 'components/common/lib'
 import { RegisterScreen } from './register'
 
-export const UnAuthenticatedApp = () => {
+export default function UnAuthenticatedApp() {
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const handleClick = useCallback(() => {
