@@ -6,16 +6,19 @@ import { loadServer, DevTools } from 'jira-dev-tool'
 import 'antd/dist/antd.less'
 import { AppAuthProvider } from 'context'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Profiler } from 'components/common/profiler'
 
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <Router>
-        <AppAuthProvider>
-          <DevTools />
-          <App />
-        </AppAuthProvider>
-      </Router>
+      <Profiler id={'Root App'} phases={['mount']}>
+        <Router>
+          <AppAuthProvider>
+            <DevTools />
+            <App />
+          </AppAuthProvider>
+        </Router>
+      </Profiler>
     </React.StrictMode>,
     document.getElementById('root'),
   ),

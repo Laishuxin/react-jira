@@ -12,6 +12,7 @@ import { useProjectInUrl } from 'screens/project/hooks/use-url'
 import { confirm } from 'components/common/confirm'
 import { CreateEpic } from './create-epic'
 import styled from '@emotion/styled'
+import { Profiler } from 'components/common/profiler'
 
 const getCurrentTaskByEpicId = (tasks: ITask[], id: number) => {
   return tasks.filter(task => task.epicId === id)
@@ -26,23 +27,25 @@ export const EpicScreen = () => {
   if (!currentProject) return <h1>当前任务不存在</h1>
 
   return (
-    <ScreenContainer>
-      <Row between={true}>
-        <h1>{currentProject.name}任务组</h1>
-        <LinkButton onClick={() => setIsEpicCreateOpen(true)}>
-          创建任务组
-        </LinkButton>
-      </Row>
-      <EpicsList
-        epics={epics}
-        tasks={tasks}
-        currentProjectId={currentProject.id}
-      />
-      <CreateEpic
-        onClose={() => setIsEpicCreateOpen(false)}
-        visible={isEpicCreateOpen}
-      />
-    </ScreenContainer>
+    <Profiler id={'epic'}>
+      <ScreenContainer>
+        <Row between={true}>
+          <h1>{currentProject.name}任务组</h1>
+          <LinkButton onClick={() => setIsEpicCreateOpen(true)}>
+            创建任务组
+          </LinkButton>
+        </Row>
+        <EpicsList
+          epics={epics}
+          tasks={tasks}
+          currentProjectId={currentProject.id}
+        />
+        <CreateEpic
+          onClose={() => setIsEpicCreateOpen(false)}
+          visible={isEpicCreateOpen}
+        />
+      </ScreenContainer>
+    </Profiler>
   )
 }
 

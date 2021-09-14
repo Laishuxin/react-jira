@@ -13,6 +13,7 @@ import {
 import { KanbanColumn } from './kanban-column'
 import { SearchPanel } from './search-panel'
 import { TasksModal } from './tasks-modal'
+import { Profiler } from 'components/common/profiler'
 
 export const KanbanScreen = () => {
   useDocumentTitle('看板列表')
@@ -24,23 +25,25 @@ export const KanbanScreen = () => {
   const { data: currentProject } = useProjectInUrl()
 
   return (
-    <ScreenContainer>
-      <h1>{currentProject?.name}看板</h1>
-      <SearchPanel />
-      <ColumnContainer>
-        {isLoading ? (
-          <LargeSpin style={{ width: '100%' }} />
-        ) : (
-          <Fragment>
-            {kanbans.map(kanban => (
-              <KanbanColumn key={kanban.id} kanban={kanban} />
-            ))}
-            <CreateKanban />
-          </Fragment>
-        )}
-      </ColumnContainer>
-      <TasksModal />
-    </ScreenContainer>
+    <Profiler id={'kanban'}>
+      <ScreenContainer>
+        <h1>{currentProject?.name}看板</h1>
+        <SearchPanel />
+        <ColumnContainer>
+          {isLoading ? (
+            <LargeSpin style={{ width: '100%' }} />
+          ) : (
+            <Fragment>
+              {kanbans.map(kanban => (
+                <KanbanColumn key={kanban.id} kanban={kanban} />
+              ))}
+              <CreateKanban />
+            </Fragment>
+          )}
+        </ColumnContainer>
+        <TasksModal />
+      </ScreenContainer>
+    </Profiler>
   )
 }
 

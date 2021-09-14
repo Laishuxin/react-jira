@@ -14,6 +14,7 @@ import { useDocumentTitle } from '../../shared/hooks/use-document-title'
 import { useProjectsSearchParams } from './hooks/use-projects-search-params'
 import { Row } from 'antd'
 import { useProjectModal } from 'shared/hooks/use-project-modal'
+import { Profiler } from 'components/common/profiler'
 
 export const ProjectListScreen = () => {
   useDocumentTitle('Project List')
@@ -24,14 +25,16 @@ export const ProjectListScreen = () => {
   const { open } = useProjectModal()
 
   return (
-    <ScreenContainer>
-      <Row justify={'space-between'}>
-        <h1>项目列表</h1>
-        <LinkButton onClick={open}>创建项目</LinkButton>
-      </Row>
-      <SearchPanel param={param} setParam={setParam} />
-      {error ? <ErrorTypography error={error} /> : null}
-      <List dataSource={list || []} users={users || []} loading={isLoading} />
-    </ScreenContainer>
+    <Profiler id={'project list'}>
+      <ScreenContainer>
+        <Row justify={'space-between'}>
+          <h1>项目列表</h1>
+          <LinkButton onClick={open}>创建项目</LinkButton>
+        </Row>
+        <SearchPanel param={param} setParam={setParam} />
+        {error ? <ErrorTypography error={error} /> : null}
+        <List dataSource={list || []} users={users || []} loading={isLoading} />
+      </ScreenContainer>
+    </Profiler>
   )
 }
