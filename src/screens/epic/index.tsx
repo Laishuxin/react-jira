@@ -13,12 +13,14 @@ import { confirm } from 'components/common/confirm'
 import { CreateEpic } from './create-epic'
 import styled from '@emotion/styled'
 import { Profiler } from 'components/common/profiler'
+import { useDocumentTitle } from 'shared/hooks/use-document-title'
 
 const getCurrentTaskByEpicId = (tasks: ITask[], id: number) => {
   return tasks.filter(task => task.epicId === id)
 }
 
 export const EpicScreen = () => {
+  useDocumentTitle('任务列表')
   const { data: currentProject } = useProjectInUrl()
   const { data: epics = [] } = useEpics(useEpicSearchParams())
   const { data: tasks = [] } = useTasks({ projectId: currentProject?.id })

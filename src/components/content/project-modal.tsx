@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { Form, Drawer, Input, Button, FormInstance } from 'antd'
+import { Form, Drawer, Input, Button, FormInstance, message } from 'antd'
 import { useProjectModal } from 'shared/hooks/use-project-modal'
 import { ErrorTypography, LargeSpin } from 'components/common/lib'
 import { UserSelect } from './user-select'
@@ -21,6 +21,8 @@ export const ProjectModal = () => {
   const {
     mutateAsync,
     isLoading: isMutateLoading,
+    isError,
+    isSuccess,
     error,
   } = useMutateProject(useProjectsQueryKey())
   const [form] = useForm()
@@ -30,9 +32,15 @@ export const ProjectModal = () => {
   }
 
   const onFinish = (values: any) => {
-    mutateAsync({ ...editingProject, ...values }).then(() => {
-      modalClose()
-    })
+    mutateAsync({ ...editingProject, ...values })
+      .then(() => {
+        if (isSuccess)
+          message.success(isEditingProject ? '修改成功' : '创建成功')
+        modalClose()
+      })
+      .catch(() => {
+        if (isError) message.error(isEditingProject ? '修改失败' : '创建失败')
+      })
   }
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { useUsers } from 'shared/hooks/use-users'
 export const UserPopover = () => {
   return (
     <Popover placement={'bottom'} content={<Content />}>
-      组员
+      <span style={{ cursor: 'default' }}>组员</span>
     </Popover>
   )
 }

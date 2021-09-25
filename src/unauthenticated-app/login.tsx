@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, message } from 'antd'
 import { useAuth } from 'context/auth-context'
 import { LongButton } from 'components/common/lib'
 import { useAsync } from '../shared/hooks/use-async'
@@ -18,7 +18,9 @@ export const LoginScreen = ({ onError, onChange }: ILoginScreenProps) => {
   }) => {
     try {
       await run(login(values))
+      message.success('登录成功！')
     } catch (e) {
+      // message.error('登录失败！')
       return onError?.(e as any)
     }
   }

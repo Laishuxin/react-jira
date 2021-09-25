@@ -4,9 +4,8 @@ import { LinkButton } from 'components/common/lib'
 import React from 'react'
 import { useProjectModal } from 'shared/hooks/use-project-modal'
 import { useProjects } from 'shared/hooks/use-projects'
-
 export const ProjectPopover = () => {
-  const { data: projects, isLoading } = useProjects()
+  const { data: projects } = useProjects()
   const pinnedProjects = projects?.filter(item => item.pin)
   const { open } = useProjectModal()
 
@@ -27,7 +26,7 @@ export const ProjectPopover = () => {
 
   return (
     <Popover placement={'bottom'} content={content}>
-      <span>项目</span>
+      <span style={{ cursor: 'default' }}>项目</span>
     </Popover>
   )
 }

@@ -21,7 +21,9 @@ export default function UnAuthenticatedApp() {
       <Background />
       <Header />
       <ShadowCard>
-        {error ? <ErrorTypography error={error} /> : null}
+        <ErrorContainer style={{ opacity: error ? '100%' : '0' }}>
+          <ErrorTypography error={error} />
+        </ErrorContainer>
         {isRegister ? (
           <RegisterScreen onError={setError} onChange={handleChange} />
         ) : (
@@ -64,4 +66,9 @@ const ShadowCard = styled(Card)`
   box-sizing: border-box;
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
   text-align: center;
+`
+
+const ErrorContainer = styled('div')`
+  height: 3rem;
+  transition: all 0.5s;
 `

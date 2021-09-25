@@ -67,6 +67,11 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     [safeDispatch],
   )
 
+  const onSuccess = useCallback((cb: (...args: any[]) => any) => {
+    cb()
+  }, [])
+  const onError = useCallback((cb: (...args: any[]) => any) => {}, [])
+
   const run = useCallback(
     (
       promise: Promise<D>,
@@ -97,6 +102,7 @@ export const useAsync = <D>(initialState?: IState<D>, config?: IConfig) => {
     setError,
     run,
     retry,
+    onError,
     isLoading: state.stat === 'loading',
     isError: state.stat === 'error',
     isSuccess: state.stat === 'success',

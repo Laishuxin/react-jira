@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from 'context/auth-context'
-import { Form, Input } from 'antd'
+import { Form, Input, message } from 'antd'
 import { LongButton } from 'components/common/lib'
 import { useAsync } from '../shared/hooks/use-async'
 
@@ -23,8 +23,9 @@ export const RegisterScreen = ({ onError, onChange }: IRegisterScreenProps) => {
     }
     try {
       await run(register(values))
+      message.success('注册成功！')
     } catch (e) {
-      onError?.(e as any)
+      return onError?.(e as any)
     }
   }
 
