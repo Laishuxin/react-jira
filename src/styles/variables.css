@@ -1,0 +1,9 @@
+:root {
+  --color-primary: #2196f3;
+  --color-success: #f6ffed;
+  --color-info: #e6f7ff;
+  --color-warning: #fffbe6;
+  --color-error: #fff2f0;
+
+  --padding-size: 3.2rem;
+}

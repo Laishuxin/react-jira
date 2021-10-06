@@ -1,4 +1,4 @@
-import { useAuth } from 'context/auth-context'
+import { useAuthContext } from 'context/auth-context'
 import qs from 'qs'
 import { useCallback } from 'react'
 
@@ -10,7 +10,7 @@ export interface Config extends RequestInit {
   token?: string
 }
 
-export const http = async <T = any>(
+export const http = async <T>(
   endpoint: string,
   { data, token, headers, ...customConfig }: Config = {},
 ): Promise<T> => {
@@ -32,19 +32,25 @@ export const http = async <T = any>(
     config.body = JSON.stringify(data || {})
   }
 
-  return window.fetch(`${BASE_URL}${endpoint}`, config).then(async response => {
-    if (response.status === HTTP_AUTHENTICATION) {
-      await useAuth().logout()
-      window.location.reload()
-      return Promise.reject({ message: 'Please login again.' })
-    }
-    const data = await response.json()
-    return response.ok ? (data as Promise<T>) : Promise.reject(data)
-  })
+  try {
+    return window
+      .fetch(`${BASE_URL}${endpoint}`, config)
+      .then(async response => {
+        if (response.status === HTTP_AUTHENTICATION) {
+          await useAuthContext().logout()
+          window.location.reload()
+          return Promise.reject({ message: 'Please login again.' })
+        }
+        const data = await response.json()
+        return response.ok ? (data as Promise<T>) : Promise.reject(data)
+      })
+  } catch (e) {
+    return Promise.reject(e)
+  }
 }
 
 export const useHttp = () => {
-  const { user } = useAuth()
+  const { user } = useAuthContext()
   return useCallback(
     <T = any>(...[endpoint, config]: Parameters<typeof http>) =>
       http<T>(endpoint, { ...config, token: user?.token }),

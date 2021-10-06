@@ -1,24 +1,27 @@
+import './wdyr'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { loadServer, DevTools } from 'jira-dev-tool'
 import 'antd/dist/antd.less'
-import { AppAuthProvider } from 'context'
+import { AuthProvider } from 'context/auth-context'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Profiler } from 'components/common/profiler'
+import { Home } from 'views/home'
+import { Provider } from 'react-redux'
+import store from './store'
+import 'styles/main.css'
 
 loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <Profiler id={'Root App'} phases={['mount']}>
-        <Router>
-          <AppAuthProvider>
+      <Router>
+        <Provider store={store}>
+          <AuthProvider>
             <DevTools />
-            <App />
-          </AppAuthProvider>
-        </Router>
-      </Profiler>
+            <Home />
+          </AuthProvider>
+        </Provider>
+      </Router>
     </React.StrictMode>,
     document.getElementById('root'),
   ),

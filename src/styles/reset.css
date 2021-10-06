@@ -1,0 +1,97 @@
+blockquote,
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+/* body,
+button,
+input,
+select,
+textarea {
+} */
+
+ol,
+ul {
+  list-style: none;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}
+
+em,
+i {
+  font-style: normal;
+}
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* button,
+input {
+  font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB,
+    '\5B8B\4F53', sans-serif;
+} */
+
+html {
+  font-size: 62.5%;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #2196f3;
+  color: #2196f3;
+}

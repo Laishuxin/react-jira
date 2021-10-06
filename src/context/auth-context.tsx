@@ -1,85 +1,99 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
+// TODO(rushui 2021-09-30): 重构
+import { useAsync } from 'hooks/use-async'
+import { LoginForm, RegisterForm } from 'typings/auth'
+import { User } from 'typings/user'
 import * as auth from 'api/auth'
 import { http } from 'api/http'
-import { useMount } from 'shared/hooks/use-mount'
-import { IUser } from 'types/user'
-import { IAuthForm, IRegisterForm } from 'types/form'
-import { useAsync } from '../shared/hooks/use-async'
 import {
-  FullPageErrorFeedback,
-  FullPageLoading,
-} from '../components/common/lib'
-import { useNavigateToOrigin } from 'shared/hooks/use-navigate'
-import { useQueryClient } from 'react-query'
+  FullCenterContainer,
+  FullScreenLoading,
+} from 'components/common/containers'
+import { ErrorText } from 'components/common/text'
+import { DevTools } from 'jira-dev-tool'
+
+export interface AuthContext {
+  login: (form: LoginForm) => Promise<User>
+  register: (form: RegisterForm) => Promise<User>
+  user: User | null
+  logout: () => Promise<void>
+}
+
+export interface AuthProviderProps {
+  children: React.ReactNode
+}
 
 const bootstrapUser = async () => {
   let user = null
   const token = auth.getToken()
   if (token) {
-    const data = await http('/me', { token })
+    const data = await http<{ user: User }>('/me', { token })
     user = data.user
   }
   return user
 }
 
-const AuthContext = createContext<
-  | {
-      user: IUser | null
-      login: (authForm: IAuthForm) => Promise<void>
-      register: (form: IRegisterForm) => Promise<void>
-      logout: () => Promise<void>
-    }
-  | undefined
->(undefined)
+const authContext = createContext<AuthContext | null>(null)
+authContext.displayName = 'auth-context'
 
-AuthContext.displayName = 'AuthContext'
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const navigateToOrigin = useNavigateToOrigin()
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const {
     data: user,
     setData: setUser,
     isError,
     isLoading,
-    isIdle,
     run,
     error,
-  } = useAsync<IUser | null>()
-  useMount(() => {
+  } = useAsync<User | null>()
+  useEffect(() => {
     run(bootstrapUser())
-  })
-
-  const login = (authForm: IAuthForm) => auth.fetchLogin(authForm).then(setUser)
-  const register = (authForm: IAuthForm) =>
-    auth.fetchRegister(authForm).then(setUser)
-  const queryClient = useQueryClient()
-  const logout = () =>
-    auth.fetchLogout().then(() => {
-      setUser(null)
-      navigateToOrigin()
-      queryClient.clear()
+  }, [run])
+  const login = (form: LoginForm) =>
+    auth.fetchLogin(form).then(user => {
+      setUser(user)
+      return user
     })
 
+  const register = (form: RegisterForm) =>
+    auth.fetchRegister(form).then(user => {
+      setUser(user)
+      return user
+    })
+
+  // TODO(rushui 2021-09-30): 返回首页
+  const logout = () => auth.fetchLogout().then(() => setUser(null))
+
   if (isLoading) {
-    return <FullPageLoading />
+    return <FullScreenLoading />
   }
 
   if (isError) {
-    return <FullPageErrorFeedback error={error as Error} />
+    return (
+      <FullCenterContainer>
+        <DevTools />
+        <ErrorText error={error} />
+      </FullCenterContainer>
+    )
   }
 
   return (
-    <AuthContext.Provider
-      children={children}
-      value={{ login, register, logout, user }}
-    />
+    <authContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        register,
+      }}
+    >
+      {children}
+    </authContext.Provider>
   )
 }
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
+export const useAuthContext = () => {
+  const context = useContext(authContext)
   if (!context) {
-    throw new Error('useAuth must be used inside AuthProvider.')
+    throw new Error('Auth context must be used inside AuthProvider')
   }
   return context
 }
