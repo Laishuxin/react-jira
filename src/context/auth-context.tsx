@@ -9,7 +9,6 @@ import {
   FullPageErrorFeedback,
   FullPageLoading,
 } from '../components/common/lib'
-import { resetRoute } from 'shared/utils'
 import { useNavigateToOrigin } from 'shared/hooks/use-navigate'
 import { useQueryClient } from 'react-query'
 
